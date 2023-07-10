@@ -90,7 +90,7 @@ class Image(models.Model):
     image = models.ImageField(upload_to='images', null=True, blank=True)
 
     def __str__(self) -> str:
-        return f'{self.user.first_name} {self.user.last_name} - {self.image.pk}'
+        return f'{self.user.first_name} {self.user.last_name} - {self.image}'
 
 
 class Rating(models.Model):

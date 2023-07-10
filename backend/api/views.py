@@ -4,9 +4,11 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser, DjangoModelPermissions
 from rest_framework import viewsets, permissions
 from rest_framework.decorators import action
-from core.models import Post, UserProfile, STATUS_PUBLISHED
-from .serializers import UserProfileSerializer, PostSerializer
+from core.models import Post, UserProfile, Image, STATUS_PUBLISHED
+from .serializers import UserProfileSerializer, PostSerializer, ImageSerializer
 from .permissions import IsOwnerOrAdmin, IsOwner, PostIsOwner
+
+UNSAFE_METHODS = ('PATCH', 'PUT', 'DELETE')
 
 # Create your views here.
 class UserProfileViewSet(viewsets.ModelViewSet):
@@ -80,3 +82,25 @@ class PostViewSet(viewsets.ModelViewSet):
     #             default_storage.delete(file_path)
 
     #     return super().destroy(request, *args, **kwargs)
+
+
+class ImageViewSet(viewsets.ModelViewSet):
+    serializer_class = ImageSerializer
+
+    def get_queryset(self):
+        return Image.objects.filter(post_id=self.kwargs['post_pk']).order_by('-created_at')
+    
+    def get_permissions(self):
+        method = self.request.method
+        if method in permissions.SAFE_METHODS:
+            return [AllowAny()]
+        elif method == 'POST':
+            return [IsAuthenticated()]
+        elif method in UNSAFE_METHODS:
+            return [IsOwner()]
+    
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context.update({'request': self.request})
+        context.update({'post_id': self.kwargs['post_pk']})
+        return context

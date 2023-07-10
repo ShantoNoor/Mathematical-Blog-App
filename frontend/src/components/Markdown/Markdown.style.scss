@@ -5,6 +5,8 @@
     & img {
         max-width: 100%;
         max-height: 85vw;
+        display: block;
+        margin: 0 auto;
     }
 
     & blockquote {
@@ -14,5 +16,10 @@
         margin-inline-end: 0;
         padding: 0.5rem 3rem;
     }
+
+    &__title {
+        text-align: center;
+    }
 }
+
 

@@ -18,6 +18,8 @@ from django.urls import path, include
 
 admin.site.site_header = 'Mathematical Blog Admin'
 admin.site.index_title = 'Admin'
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('api/', include('api.urls')),
@@ -25,4 +27,4 @@ urlpatterns = [
     path('__debug__/', include('debug_toolbar.urls')),
     path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.jwt')),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
