@@ -165,10 +165,10 @@ CORS_ALLOW_CREDENTIALS = True
 
 AUTH_USER_MODEL = 'core.User'
 
-# DJOSER = {
-#     'SERIALIZERS': {
-#         'user_create': 'E_Library.serializers.UserCreateSerializer',
-#         'current_user': 'E_Library.serializers.UserSerializer',
-#         'user': 'E_Library.serializers.UserSerializer'
-#     }
-# }
+DJOSER = {
+    'SERIALIZERS': {
+        'user_create': 'core.serializers.UserCreateSerializer',
+        'current_user': 'core.serializers.UserSerializer',
+        'user': 'core.serializers.UserSerializer'
+    }
+}
