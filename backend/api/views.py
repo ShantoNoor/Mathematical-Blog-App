@@ -4,8 +4,8 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser, DjangoModelPermissions
 from rest_framework import viewsets, permissions
 from rest_framework.decorators import action
-from core.models import UserProfile, STATUS_PUBLISHED
-from .serializers import UserProfileSerializer
+from core.models import Post, UserProfile, STATUS_PUBLISHED
+from .serializers import UserProfileSerializer, PostSerializer
 from .permissions import IsOwnerOrAdmin, IsOwner, PostIsOwner
 
 # Create your views here.
@@ -44,3 +44,39 @@ class UserProfileViewSet(viewsets.ModelViewSet):
             serializer.save()
 
         return Response(serializer.data)
+    
+
+class PostViewSet(viewsets.ModelViewSet):
+    queryset = Post.objects.all().order_by('-created_at')
+    # queryset = Post.objects.prefetch_related('reviews').prefetch_related('ratings').all().filter(Post_status=STATUS_PUBLISHED).order_by('-created_at')
+    serializer_class = PostSerializer
+
+    # def get_permissions(self):
+    #     method = self.request.method
+    #     if method in permissions.SAFE_METHODS:
+    #         return [AllowAny()]
+    #     elif method == 'POST':
+    #         return [IsAuthenticated()]
+    #     elif method in ('PATCH', 'PUT', 'DELETE'):
+    #         return [PostIsOwner()]
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.views += 1
+        instance.save()
+        return super().retrieve(request, *args, **kwargs)
+
+    # def destroy(self, request, *args, **kwargs):
+    #     instance = self.get_object()
+        
+    #     if instance.cover_photo:
+    #         file_path = instance.cover_photo.path
+    #         if default_storage.exists(file_path):
+    #             default_storage.delete(file_path)
+        
+    #     if instance.pdf:
+    #         file_path = instance.pdf.path
+    #         if default_storage.exists(file_path):
+    #             default_storage.delete(file_path)
+
+    #     return super().destroy(request, *args, **kwargs)

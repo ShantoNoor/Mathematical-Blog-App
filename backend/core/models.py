@@ -68,7 +68,7 @@ class Post(models.Model):
     added_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
 
     def __str__(self) -> str:
-        return self.name
+        return self.title
 
 
 class Comment(models.Model):

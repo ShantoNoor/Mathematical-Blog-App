@@ -3,7 +3,7 @@ from . import views
 from rest_framework_nested import routers
 
 router = routers.DefaultRouter()
-# router.register(r'posts', views.PostViewSet)
+router.register(r'posts', views.PostViewSet)
 router.register(r'profiles', views.UserProfileViewSet)
 # router.register(r'reviews', views.ReviewViewSet)
 
