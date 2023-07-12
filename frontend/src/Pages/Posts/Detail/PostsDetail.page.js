@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import Markdown from '../../../components/Markdown/Markdown.component'
 import { useParams } from 'react-router-dom';
 import NotFound from '../../NotFound/NotFound.page';
+import './PostsDetail.style.scss'
 
 const PostsDetail = () => {
   const [title, setTitle] = useState('');
@@ -25,10 +26,10 @@ const PostsDetail = () => {
   })
 
   return (content !== '') ?
-    (<>
-      <h1 className='markdown__title'>{title}</h1>
+    (<section className='post-details'>
+      <h1 className='post-details__title'>{title}</h1>
       <Markdown content={content} />
-    </>)
+    </section>)
 	:
 	<NotFound title='Post' />
 }

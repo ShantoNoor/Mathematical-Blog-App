@@ -49,7 +49,7 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     
 
 class PostViewSet(viewsets.ModelViewSet):
-    queryset = Post.objects.all().order_by('-created_at')
+    queryset = Post.objects.all().filter(post_status=STATUS_PUBLISHED).order_by('-created_at')
     # queryset = Post.objects.prefetch_related('reviews').prefetch_related('ratings').all().filter(Post_status=STATUS_PUBLISHED).order_by('-created_at')
     serializer_class = PostSerializer
 
