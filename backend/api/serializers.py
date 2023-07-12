@@ -27,7 +27,7 @@ class PostSerializer(serializers.ModelSerializer):
 
     uploaded_images = serializers.ListField(
         child=serializers.ImageField(use_url=True, allow_empty_file=True),
-        write_only=True
+        write_only=True, required=False, allow_null=True, default=[]
     )
 
     # def get_rating(self, post):

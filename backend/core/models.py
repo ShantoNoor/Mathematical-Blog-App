@@ -62,7 +62,7 @@ class Post(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     post_status = models.CharField(
-        max_length=9, choices=STATUS_CHOICES, default=STATUS_PENDING
+        max_length=9, choices=STATUS_CHOICES, default=STATUS_PUBLISHED
     )
 
     added_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
