@@ -25,6 +25,11 @@ class PostSerializer(serializers.ModelSerializer):
 
     images = ImageSerializer(many=True, read_only=True)
 
+    uploaded_images = serializers.ListField(
+        child=serializers.ImageField(use_url=True, allow_empty_file=True),
+        write_only=True
+    )
+
     # def get_rating(self, post):
     #     qs = Rating.objects.all().filter(post_id=post.id)
     #     total_rating = 0
@@ -38,12 +43,20 @@ class PostSerializer(serializers.ModelSerializer):
     #     return total_rating / count_user
         
     def create(self, validated_data):
+        uploaded_images = validated_data.pop('uploaded_images')
+
         added_by = self.context['request'].user
-        return Post.objects.create(added_by=added_by, **validated_data)
-    
+        post = Post.objects.create(added_by=added_by, **validated_data)
+
+        for image in uploaded_images:
+            Image.objects.create(user=added_by, post=post, image=image)
+        
+        return post
+
+
     class Meta:
         model = Post
-        fields = ['id', 'title', 'content', 'views', 'created_at', 'updated_at', 'post_status', 'added_by', 'images']
+        fields = ['id', 'title', 'content', 'views', 'created_at', 'updated_at', 'post_status', 'added_by', 'images', 'uploaded_images']
         # fields = ('id', 'field1', 'field2')
         # exclude = ('field3',)
 
