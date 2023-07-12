@@ -1,25 +1,20 @@
 import './App.scss';
-import Markdown from './components/Markdown/Markdown.component'
-import { useEffect, useState } from 'react';
+import { Link, Route, Routes, Navigate } from 'react-router-dom'
+import PostsAdd from './Pages/Posts/Add/PostsAdd.page';
+import Posts from './Pages/Posts/Index/Posts.page'
+import PostsDetail from './Pages/Posts/Detail/PostsDetail.page';
+import NotFound from './Pages/NotFound/NotFound.page';
 
 function App() {
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
-  useEffect(() => {
-    fetch('http://127.0.0.1:8000/api/posts/')
-      .then(response => response.json())
-      .then(data => {
-        setTitle(data[0].title)
-        setContent(data[0].content)
-        console.log(content)
-      })
-      .catch(error => console.error(error))
-  })
-  
   return (
     <>
-      <h1 className='markdown__title'>{title}</h1>
-      <Markdown content={content} />
+      <Routes>
+        <Route path='/' element={<Navigate to="/posts" />} />
+        <Route path='/posts' element={<Posts />} />
+        <Route path='/posts/add' element={<PostsAdd />} />
+        <Route path='/posts/:id' element={<PostsDetail />} />
+        <Route path='*' element={<NotFound title='Page' />} />
+      </Routes>
     </>
   );
 }
