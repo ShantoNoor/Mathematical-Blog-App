@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-import Markdown from '../../../components/Markdown/Markdown.component'
+import Markdown from '../components/Markdown/Markdown.component'
 import { useParams, useNavigate } from 'react-router-dom';
-import './PostsDetail.style.scss'
+import { Container, Typography, Divider } from '@mui/material';
+import { CssBaseline } from '@mui/material';
 
 const PostsDetail = () => {
   const [title, setTitle] = useState('');
@@ -29,10 +30,13 @@ const PostsDetail = () => {
   })
 
   return (
-    <section className='post-details'>
-      <h1 className='post-details__title'>{title}</h1>
-      <Markdown content={content} />
-    </section>
+    <Container>
+      <Typography variant='h2' component="h1" mt={3} mb={3}>{title}</Typography>
+      <Divider sx={{ marginBottom: 3 }}/>
+      <CssBaseline >
+        <Markdown content={content} />
+      </CssBaseline>
+    </Container>
   )
 }
 
