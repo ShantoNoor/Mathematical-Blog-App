@@ -1,9 +1,9 @@
 import './App.scss';
 import { Link, Route, Routes, Navigate } from 'react-router-dom'
 import PostsAdd from './pages/Posts/Add/PostsAdd.page';
-import Posts from './pages/Posts/Index/Posts.page'
+import Posts from './pages/Posts.page'
 import PostsDetail from './pages/PostsDetail.page';
-import NotFound from './pages/NotFound/NotFound.page';
+import NotFound from './pages/NotFound.page';
 
 function App() {
   return (

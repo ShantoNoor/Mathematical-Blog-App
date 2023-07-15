@@ -73,9 +73,10 @@ const PostItem = ({post}) => {
                 horizontal: 'left',
               }}
             >
-              <MenuItem onClick={handleClose}>Edit</MenuItem>
-              <MenuItem onClick={handleClose}>Delete</MenuItem>
-              <MenuItem onClick={handleClose}>View Profile</MenuItem>
+              <MenuItem onClick={() => navigate(`/posts/${post.id}`)}>Read Blog</MenuItem>
+              <MenuItem>Edit Blog</MenuItem>
+              <MenuItem>Delete Blog</MenuItem>
+              <MenuItem>View Profile</MenuItem>
             </Menu>
           </>
         }
