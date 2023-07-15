@@ -5,15 +5,15 @@ const NotFound = ({ title }) => {
   return (
     <Container>
       <Box sx={{
-        display: 'flex', 
+        minWidth: '100%',
+        minHeight: '100vh',
+        display: 'flex',
         flexDirection: 'column',
-        minWidth: '100%', 
-        minHeight: '100vh', 
         justifyContent: 'center',
-        alignItems: 'center'
+        textAlign: 'center'
       }}>
         <Typography variant="h1">{title} not found.</Typography>
-        <Divider />
+        <Divider sx={{ padding:'1px' }}/>
         <Typography variant="h2">Error 404</Typography>
       </Box>
     </Container>
