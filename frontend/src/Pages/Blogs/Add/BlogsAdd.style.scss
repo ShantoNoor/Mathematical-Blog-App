@@ -1,4 +1,4 @@
-.post-add {
+.blog-add {
     padding: 10px;
     &__title {
         text-align: center;
@@ -7,7 +7,7 @@
     }
 }
 
-.post-form {
+.blog-form {
     display: flex;
     flex-direction: column;
     justify-content: space-between;

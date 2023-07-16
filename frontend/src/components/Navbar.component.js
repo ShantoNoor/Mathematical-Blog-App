@@ -50,7 +50,7 @@ const Navbar = ({ showSearchBar=false, handelSearchChange=null, searchValue=null
 
   const menuItemsLoggedIn = [
     { id:11, text: 'All Blogs', path: '/' },
-    { id:12, text: 'My Blogs', path: '/posts/me' },
+    { id:12, text: 'My Blogs', path: '/blogs/me' },
     { id:13, text: 'My Profile', path: '/profiles/me' }
   ];
 
@@ -172,6 +172,7 @@ const Navbar = ({ showSearchBar=false, handelSearchChange=null, searchValue=null
                   component={NavLink}
                   to={item.path}
                   activeclasscame="active"
+                  size="large"
                   sx={{ textTransform: 'none', fontWeight: 'normal' }}
                 >
                   {item.text}

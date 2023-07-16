@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from core.models import Post, Rating, STATUS_CHOICES, UserProfile, Image
+from core.models import Blog, Rating, STATUS_CHOICES, UserProfile, Image
 from core.serializers import UserSerializer
 
 class ImageSerializer(serializers.ModelSerializer):
@@ -21,7 +21,7 @@ class PostSerializer(serializers.ModelSerializer):
     # reviews = ReviewSerializer(many=True, read_only=True)
     # ratings = RatingSerializer(many=True, read_only=True)
     # rating = serializers.SerializerMethodField(method_name='get_rating')
-    added_by = UserSerializer(read_only=True)
+    author = UserSerializer(read_only=True)
 
     images = ImageSerializer(many=True, read_only=True)
 
@@ -30,8 +30,8 @@ class PostSerializer(serializers.ModelSerializer):
         write_only=True, required=False, allow_null=True, default=[]
     )
 
-    # def get_rating(self, post):
-    #     qs = Rating.objects.all().filter(post_id=post.id)
+    # def get_rating(self, blog):
+    #     qs = Rating.objects.all().filter(post_id=blog.id)
     #     total_rating = 0
     #     count_user = 0
     #     for rating in qs:
@@ -45,18 +45,18 @@ class PostSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         uploaded_images = validated_data.pop('uploaded_images')
 
-        added_by = self.context['request'].user
-        post = Post.objects.create(added_by=added_by, **validated_data)
+        author = self.context['request'].user
+        blog = Blog.objects.create(author=author, **validated_data)
 
         for image in uploaded_images:
-            Image.objects.create(user=added_by, post=post, image=image)
+            Image.objects.create(user=author, blog=blog, image=image)
         
-        return post
+        return blog
 
 
     class Meta:
-        model = Post
-        fields = ['id', 'title', 'content', 'views', 'created_at', 'updated_at', 'post_status', 'added_by', 'images', 'uploaded_images']
+        model = Blog
+        fields = ['id', 'title', 'content', 'views', 'created_at', 'updated_at', 'post_status', 'author', 'images', 'uploaded_images']
         # fields = ('id', 'field1', 'field2')
         # exclude = ('field3',)
 

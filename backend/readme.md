@@ -29,15 +29,15 @@ python manage.py createsuperuser
 ### `Authorization: JWT access_token`
 
 # API Endpoints
-## Related to blog posts
-### http://127.0.0.1:8000/post/
-### http://127.0.0.1:8000/post/1
+## Related to blog blogs
+### http://127.0.0.1:8000/blog/
+### http://127.0.0.1:8000/blog/1
 ## Related to book comments
-### http://127.0.0.1:8000/post/1/comment
-### http://127.0.0.1:8000/post/1/comment/1
+### http://127.0.0.1:8000/blog/1/comment
+### http://127.0.0.1:8000/blog/1/comment/1
 ## Related to book ratings
-### http://127.0.0.1:8000/post/1/rating
-### http://127.0.0.1:8000/post/1/rating/1
+### http://127.0.0.1:8000/blog/1/rating
+### http://127.0.0.1:8000/blog/1/rating/1
 ## Related to profiles
 ### http://127.0.0.1:8000/profiles/  -> login required
 ### http://127.0.0.1:8000/profiles/1  -> login required(Moderator and Admin Only)

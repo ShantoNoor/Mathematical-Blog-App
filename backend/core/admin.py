@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from core.models import (User, UserProfile, Comment, Like, Image, Rating, Post,
+from core.models import (User, UserProfile, Comment, Like, Image, Rating, Blog,
     PROFILE_ADMIN, PROFILE_MODERATOR, PROFILE_USER, STATUS_PUBLISHED, STATUS_PENDING, STATUS_REJECTED)
 from django.contrib.auth.models import Group
 
@@ -58,16 +58,16 @@ class UserProfileAdmin(admin.ModelAdmin):
         return super().save_form(request, form, change)
 
 
-@admin.register(Post)
+@admin.register(Blog)
 class PostAdmin(admin.ModelAdmin):
-    list_display = ['title', 'added_by', 'post_status']
+    list_display = ['title', 'author', 'post_status']
     list_editable = ['post_status']
     list_per_page = 10
     ordering = ['title']
 
     # def get_queryset(self, request: HttpRequest) -> QuerySet[Any]:
-    #     qs1 = Post.objects.filter(post_status=STATUS_PENDING).all().order_by('-created_at')
-    #     qs2 = Post.objects.filter(post_status=STATUS_PUBLISHED).all().order_by('-created_at')
-    #     qs3 = Post.objects.filter(post_status=STATUS_REJECTED).all().order_by('-created_at')
+    #     qs1 = Blog.objects.filter(post_status=STATUS_PENDING).all().order_by('-created_at')
+    #     qs2 = Blog.objects.filter(post_status=STATUS_PUBLISHED).all().order_by('-created_at')
+    #     qs3 = Blog.objects.filter(post_status=STATUS_REJECTED).all().order_by('-created_at')
     #     # qs = qs1.union(qs2)
     #     return qs1 | qs2 |qs3

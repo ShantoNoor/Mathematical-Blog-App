@@ -8,8 +8,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { red } from '@mui/material/colors';
 
-const PostItem = ({post}) => {
-  const formattedDate = new Date(post.created_at).toLocaleString('en-US', {
+const PostItem = ({blog}) => {
+  const formattedDate = new Date(blog.created_at).toLocaleString('en-US', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
@@ -33,16 +33,16 @@ const PostItem = ({post}) => {
     <Card sx={{}}>
       <CardContent>
         <Typography variant="h4" color="text.secondary">
-          {post.title}
+          {blog.title}
         </Typography>
       </CardContent>
 
       <CardHeader 
-        title={`@${post.added_by.username}`}
+        title={`@${blog.author.username}`}
         subheader={formattedDate}
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-            {post.added_by.first_name[0]}
+            {blog.author.first_name[0]}
           </Avatar>
         }
         action={
@@ -71,7 +71,7 @@ const PostItem = ({post}) => {
                 horizontal: 'left',
               }}
             >
-              <MenuItem onClick={() => navigate(`/posts/${post.id}`)}>Read Blog</MenuItem>
+              <MenuItem onClick={() => navigate(`/blogs/${blog.id}`)}>Read Blog</MenuItem>
               <MenuItem>Edit Blog</MenuItem>
               <MenuItem>Delete Blog</MenuItem>
               <MenuItem>View Profile</MenuItem>
@@ -103,12 +103,12 @@ const PostItem = ({post}) => {
           <Tooltip title="Blog Views">
             <Box sx={{ display:'flex', alignItems: 'center', marginLeft: 1}}>
               <WatchLaterIcon color='success'/>
-              <Typography variant='span'>{post.views}</Typography>
+              <Typography variant='span'>{blog.views}</Typography>
             </Box>
           </Tooltip>
 
           <Tooltip title="Read Blog">
-            <IconButton aria-label="read" onClick={() => navigate(`/posts/${post.id}`)} sx={{borderRadius: '8px', '&:hover': { borderRadius: '8px'}}}>
+            <IconButton aria-label="read" onClick={() => navigate(`/blogs/${blog.id}`)} sx={{borderRadius: '8px', '&:hover': { borderRadius: '8px'}}}>
               <ArticleIcon color='secondary'/>
               <Typography variant='span' component='span' sx={{fontSize: '16px'}}>READ</Typography>
             </IconButton>

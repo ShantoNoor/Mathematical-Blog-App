@@ -4,20 +4,20 @@ import { Container, Typography, Divider, Grid } from '@mui/material';
 import Navbar from '../components/Navbar.component';
 
 
-const Posts = () => {
-  const [posts, setPosts] = useState([])
+const Blogs = () => {
+  const [blogs, setPosts] = useState([])
   const [filteredPosts, setFilteredPosts] = useState([])
 
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/api/posts/')
+    fetch('http://127.0.0.1:8000/api/blogs/')
       .then(response => {
 				if(response.statusText === 'OK')
 					return response.json()
 				return []
 			})
-      .then(posts => {
-				if(posts !== []) {
-          setPosts(posts)
+      .then(blogs => {
+				if(blogs !== []) {
+          setPosts(blogs)
 				}
       })
       .catch(error => console.error(error))
@@ -25,11 +25,11 @@ const Posts = () => {
 
   const [searchValue, setSearchValue] = useState('')
   useEffect(()=>{
-    const filtered_posts = posts.filter((post) =>
-      post.title.toLowerCase().includes(searchValue.toLowerCase())
+    const filtered_posts = blogs.filter((blog) =>
+      blog.title.toLowerCase().includes(searchValue.toLowerCase())
     );
     setFilteredPosts(filtered_posts)
-  }, [searchValue, posts])
+  }, [searchValue, blogs])
 
   return (
     <>
@@ -38,11 +38,11 @@ const Posts = () => {
         <Typography variant='h2' component="h1" mt={3} mb={3}>All Blogs</Typography>
         <Divider sx={{ marginBottom: 3 }}/>
         <Grid container spacing={3} alignItems="stretch">
-          {filteredPosts.map(post => <Grid item xs={12} sm={6} md={4} key={post.id}><PostItem post={post} /></Grid> )}
+          {filteredPosts.map(blog => <Grid item xs={12} sm={6} md={4} key={blog.id}><PostItem blog={blog} /></Grid> )}
         </Grid>
       </Container>
     </>
   )
 }
 
-export default Posts
+export default Blogs

@@ -11,4 +11,4 @@ class IsOwner(permissions.BasePermission):
 
 class PostIsOwner(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):  
-        return obj.added_by.id == request.user.id
+        return obj.author.id == request.user.id

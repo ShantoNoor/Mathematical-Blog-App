@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import './PostsAdd.style.scss'
+import './BlogsAdd.style.scss'
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../../../components/Navbar.component'
 
-const PostsAdd = () => {
+const BlogsAdd = () => {
   const [files, setFiles] = useState(null)
   const navigate = useNavigate();
 
@@ -18,7 +18,7 @@ const PostsAdd = () => {
     console.log(files)
 
     const myHeaders = new Headers();
-    myHeaders.append("Authorization", "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg5MjYwNDQ3LCJqdGkiOiIzOTkxZDA0NTIxOTM0Yjk3YmMzMzk1YTdmMGQzYTNmNiIsInVzZXJfaWQiOjN9.oftFb5sGILvz3NpVBN7fpLFHAhLVvfxmjxupt6IwaIM");
+    myHeaders.append("Authorization", "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg5NjI2MTc1LCJqdGkiOiIwMTJmM2VkZmJjMjc0ZDJhYWY5ODkyZmY4ODA5MzJlYyIsInVzZXJfaWQiOjJ9.-cY7sZc_e_vuJ32lgZQRZJmcsrkGXn9YfFKqnyhyIM4");
 
     const formdata = new FormData();
     formdata.append("title", event.target.title.value);
@@ -37,30 +37,30 @@ const PostsAdd = () => {
       redirect: 'follow'
     };
 
-    fetch("http://127.0.0.1:8000/api/posts/", requestOptions)
+    fetch("http://127.0.0.1:8000/api/blogs/", requestOptions)
       .then(response => response.text())
       .then(result => console.log(result))
       .catch(error => {
         console.log('error', error)
       });
     
-    navigate("/posts")
+    navigate("/blogs")
   }
 
   return (
     <>
       <Navbar />
-      <section className='post-add'>
-        <h1 className='post-add__title'>Add Post</h1>
-        <form className='post-form' onSubmit={addPost}>
-          <input className='post-form__title' type='text' name='title' placeholder='Post Title' />
-          <textarea className='post-form__content' name='content' placeholder='Post Content' />
+      <section className='blog-add'>
+        <h1 className='blog-add__title'>Add Blog</h1>
+        <form className='blog-form' onSubmit={addPost}>
+          <input className='blog-form__title' type='text' name='title' placeholder='Blog Title' />
+          <textarea className='blog-form__content' name='content' placeholder='Blog Content' />
           <input type='file' multiple name='uploaded_images' onChange={handelFiles} />
-          <input className='post-form__btn' type='submit' value='Add' />
+          <input className='blog-form__btn' type='submit' value='Add' />
         </form>
       </section>
     </>
   )
 }
 
-export default PostsAdd
+export default BlogsAdd

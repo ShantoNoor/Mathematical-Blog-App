@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser, DjangoModelPermissions
 from rest_framework import viewsets, permissions
 from rest_framework.decorators import action
-from core.models import Post, UserProfile, Image, STATUS_PUBLISHED
+from core.models import Blog, UserProfile, Image, STATUS_PUBLISHED
 from .serializers import UserProfileSerializer, PostSerializer, ImageSerializer
 from .permissions import IsOwnerOrAdmin, IsOwner, PostIsOwner
 
@@ -49,8 +49,8 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     
 
 class PostViewSet(viewsets.ModelViewSet):
-    queryset = Post.objects.all().filter(post_status=STATUS_PUBLISHED).order_by('-created_at')
-    # queryset = Post.objects.prefetch_related('reviews').prefetch_related('ratings').all().filter(Post_status=STATUS_PUBLISHED).order_by('-created_at')
+    queryset = Blog.objects.all().filter(post_status=STATUS_PUBLISHED).order_by('-created_at')
+    # queryset = Blog.objects.prefetch_related('reviews').prefetch_related('ratings').all().filter(Post_status=STATUS_PUBLISHED).order_by('-created_at')
     serializer_class = PostSerializer
 
     # def get_permissions(self):

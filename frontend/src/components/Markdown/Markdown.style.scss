@@ -20,6 +20,11 @@
         margin-inline-end: 0;
         padding: 0.5rem 3rem;
     }
+
+    & li {
+        position: relative;
+        left: 3em;
+    }
 }
 
 

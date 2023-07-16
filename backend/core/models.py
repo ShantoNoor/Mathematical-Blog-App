@@ -54,7 +54,7 @@ class UserProfile(models.Model):
         ordering = ['user__first_name', 'user__last_name']
 
 
-class Post(models.Model):
+class Blog(models.Model):
     title = models.CharField(max_length=255)
     content = models.TextField()
     views = models.PositiveIntegerField(default=0)
@@ -65,7 +65,7 @@ class Post(models.Model):
         max_length=9, choices=STATUS_CHOICES, default=STATUS_PUBLISHED
     )
 
-    added_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='blogs')
 
     def __str__(self) -> str:
         return self.title
@@ -73,7 +73,7 @@ class Post(models.Model):
 
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
+    blog = models.ForeignKey(Blog, on_delete=models.CASCADE, related_name='comments')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     comment = models.TextField(blank=True, null=True)
@@ -84,7 +84,7 @@ class Comment(models.Model):
 
 class Image(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='images')
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='images')
+    blog = models.ForeignKey(Blog, on_delete=models.CASCADE, related_name='images')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     image = models.ImageField(upload_to='images', null=True, blank=True)
@@ -95,7 +95,7 @@ class Image(models.Model):
 
 class Rating(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='ratings')
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='ratings')
+    blog = models.ForeignKey(Blog, on_delete=models.CASCADE, related_name='ratings')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     rating = models.IntegerField(blank=False, null=False, validators=[
@@ -104,7 +104,7 @@ class Rating(models.Model):
     ])
 
     class Meta:
-        unique_together = ('user', 'post')
+        unique_together = ('user', 'blog')
 
     def __str__(self) -> str:
         return f'{self.user.first_name} {self.user.last_name} - Rate: {self.rating}'
@@ -112,12 +112,12 @@ class Rating(models.Model):
 
 class Like(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='likes')
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='likes')
+    blog = models.ForeignKey(Blog, on_delete=models.CASCADE, related_name='likes')
     created_at = models.DateTimeField(auto_now_add=True)
     like = models.BooleanField(default=False)
 
     class Meta:
-        unique_together = ('user', 'post')
+        unique_together = ('user', 'blog')
 
     def __str__(self) -> str:
         return f'{self.user.first_name} {self.user.last_name} - Like: {self.like}'
