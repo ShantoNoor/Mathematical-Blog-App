@@ -8,7 +8,6 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { red } from '@mui/material/colors';
 
-
 const PostItem = ({post}) => {
   const formattedDate = new Date(post.created_at).toLocaleString('en-US', {
     year: 'numeric',
@@ -29,7 +28,6 @@ const PostItem = ({post}) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
 
   return (
     <Card sx={{}}>
@@ -110,7 +108,7 @@ const PostItem = ({post}) => {
           </Tooltip>
 
           <Tooltip title="Read Blog">
-            <IconButton aria-label="read" onClick={() => navigate(`/posts/${post.id}`)}>
+            <IconButton aria-label="read" onClick={() => navigate(`/posts/${post.id}`)} sx={{borderRadius: '8px', '&:hover': { borderRadius: '8px'}}}>
               <ArticleIcon color='secondary'/>
               <Typography variant='span' component='span' sx={{fontSize: '16px'}}>READ</Typography>
             </IconButton>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import './PostsAdd.style.scss'
 import { useNavigate } from 'react-router-dom';
+import Navbar from '../../../components/Navbar.component'
 
 const PostsAdd = () => {
   const [files, setFiles] = useState(null)
@@ -48,6 +49,7 @@ const PostsAdd = () => {
 
   return (
     <>
+      <Navbar />
       <section className='post-add'>
         <h1 className='post-add__title'>Add Post</h1>
         <form className='post-form' onSubmit={addPost}>

@@ -3,6 +3,7 @@ import Markdown from '../components/Markdown/Markdown.component'
 import { useParams, useNavigate } from 'react-router-dom';
 import { Container, Typography, Divider } from '@mui/material';
 import { CssBaseline } from '@mui/material';
+import Navbar from '../components/Navbar.component';
 
 const PostsDetail = () => {
   const [title, setTitle] = useState('');
@@ -30,13 +31,16 @@ const PostsDetail = () => {
   })
 
   return (
-    <Container>
-      <Typography variant='h2' component="h1" mt={3} mb={3}>{title}</Typography>
-      <Divider sx={{ marginBottom: 3 }}/>
-      <CssBaseline >
-        <Markdown content={content} />
-      </CssBaseline>
-    </Container>
+    <>
+      <Navbar />
+      <Container>
+        <Typography variant='h2' component="h1" mt={3} mb={3}>{title}</Typography>
+        <Divider sx={{ marginBottom: 3 }}/>
+        <CssBaseline >
+          <Markdown content={content} />
+        </CssBaseline>
+      </Container>
+    </>
   )
 }
 
