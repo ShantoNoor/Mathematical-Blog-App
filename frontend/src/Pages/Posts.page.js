@@ -6,6 +6,7 @@ import Navbar from '../components/Navbar.component';
 
 const Posts = () => {
   const [posts, setPosts] = useState([])
+  const [filteredPosts, setFilteredPosts] = useState([])
 
   useEffect(() => {
     fetch('http://127.0.0.1:8000/api/posts/')
@@ -17,20 +18,27 @@ const Posts = () => {
       .then(posts => {
 				if(posts !== []) {
           setPosts(posts)
-          // console.log(posts)
 				}
       })
       .catch(error => console.error(error))
   }, [])
 
+  const [searchValue, setSearchValue] = useState('')
+  useEffect(()=>{
+    const filtered_posts = posts.filter((post) =>
+      post.title.toLowerCase().includes(searchValue.toLowerCase())
+    );
+    setFilteredPosts(filtered_posts)
+  }, [searchValue, posts])
+
   return (
     <>
-      <Navbar showSearchBar={true} />
+      <Navbar showSearchBar={true} handelSearchChange={setSearchValue} searchValue={searchValue} />
       <Container>
         <Typography variant='h2' component="h1" mt={3} mb={3}>All Blogs</Typography>
         <Divider sx={{ marginBottom: 3 }}/>
         <Grid container spacing={3} alignItems="stretch">
-          {posts.map(post => <Grid item xs={12} sm={6} md={4} key={post.id}><PostItem post={post} /></Grid> )}
+          {filteredPosts.map(post => <Grid item xs={12} sm={6} md={4} key={post.id}><PostItem post={post} /></Grid> )}
         </Grid>
       </Container>
     </>

@@ -1,5 +1,4 @@
 import { useState } from 'react';
-// import { useLocation } from 'react-router-dom';
 import {
   AppBar,
   Toolbar,
@@ -25,15 +24,13 @@ import { red } from '@mui/material/colors';
 import Search from './Search.component';
 
 
-const Navbar = ({ showSearchBar=false }) => {
+const Navbar = ({ showSearchBar=false, handelSearchChange=null, searchValue=null }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-  // const location = useLocation();
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [accountMenuOpen, setAccountMenuOpen] = useState(null);
-  const [searchValue, setSearchValue] = useState(null)
-  const [loggedIn, setLoggedIn] = useState(true)
+  const [loggedIn, setLoggedIn] = useState(false)
 
   const handleMobileMenuOpen = () => {
     setMobileMenuOpen(true);
@@ -52,15 +49,15 @@ const Navbar = ({ showSearchBar=false }) => {
   };
 
   const menuItemsLoggedIn = [
-    { text: 'All Blogs', path: '/' },
-    { text: 'My Blogs', path: '/posts/me' },
-    { text: 'My Profile', path: '/profiles/me' }
+    { id:11, text: 'All Blogs', path: '/' },
+    { id:12, text: 'My Blogs', path: '/posts/me' },
+    { id:13, text: 'My Profile', path: '/profiles/me' }
   ];
 
   const menuItemsNotLoggedIn = [
-    { text: 'All Blogs', path: '/' },
-    { text: 'Sign Up', path: '*' },
-    { text: 'Login', path: '*' },
+    { id:22, text: 'All Blogs', path: '/' },
+    { id:23, text: 'Sign Up', path: '*' },
+    { id:24, text: 'Login', path: '*' },
   ];
 
   return (
@@ -86,7 +83,7 @@ const Navbar = ({ showSearchBar=false }) => {
               anchor="left"
               open={mobileMenuOpen}
               onClose={handleMobileMenuClose}
-              // sx={{ '& .MuiDrawer-paper': { width: '70%' } }}
+              sx={{ '& .MuiDrawer-paper': { width: '250px' } }}
             >
               <List>
                 <ListItem
@@ -98,13 +95,12 @@ const Navbar = ({ showSearchBar=false }) => {
                 {showSearchBar && <ListItem
                   key={'search'}
                 >
-                  <Search underline={true} />
+                  <Search underline={true} handelSearchChange={handelSearchChange} searchValue={searchValue} />
                 </ListItem>}
                 
                 {loggedIn && menuItemsLoggedIn.map((item) => (
-                  <>
+                  <Box key={item.id}>
                     <ListItem
-                      key={item.text}
                       onClick={handleMobileMenuClose}
                       component={NavLink}
                       to={item.path}
@@ -115,13 +111,12 @@ const Navbar = ({ showSearchBar=false }) => {
                       </ListItemButton>
                     </ListItem>
                     <Divider />
-                  </>
+                  </Box>
                 ))}
 
                 {!loggedIn && menuItemsNotLoggedIn.map((item) => (
-                  <>
+                  <Box key={item.id}>
                     <ListItem
-                      key={item.text}
                       onClick={handleMobileMenuClose}
                       component={NavLink}
                       to={item.path}
@@ -132,7 +127,7 @@ const Navbar = ({ showSearchBar=false }) => {
                       </ListItemButton>
                     </ListItem>
                     <Divider />
-                  </>
+                  </Box>
                 ))}
 
                 {loggedIn && <>
@@ -154,12 +149,12 @@ const Navbar = ({ showSearchBar=false }) => {
           </>
         ) : (
           <>
-            {showSearchBar && <Search />}
+            {showSearchBar && <Search handelSearchChange={handelSearchChange} searchValue={searchValue} />}
 
             <Box>
               {loggedIn && menuItemsLoggedIn.map((item) => (
                 <Button
-                  key={item.text}
+                  key={item.id}
                   color="inherit"
                   component={NavLink}
                   to={item.path}
@@ -172,7 +167,7 @@ const Navbar = ({ showSearchBar=false }) => {
 
               {!loggedIn && menuItemsNotLoggedIn.map((item) => (
                 <Button
-                  key={item.text}
+                  key={item.id}
                   color="inherit"
                   component={NavLink}
                   to={item.path}
@@ -203,10 +198,10 @@ const Navbar = ({ showSearchBar=false }) => {
                     open={Boolean(accountMenuOpen)}
                     onClose={handleAccountMenuClose}
                   >
-                    <MenuItem onClick={() => console.log('My Profile clicked')}>
+                    <MenuItem key={'2'} onClick={() => console.log('My Profile clicked')}>
                       My Profile
                     </MenuItem>
-                    <MenuItem onClick={() => console.log('Logout clicked')}>
+                    <MenuItem key={'3'} onClick={() => console.log('Logout clicked')}>
                       Logout
                     </MenuItem>
                   </Menu>
