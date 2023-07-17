@@ -90,7 +90,7 @@ const Navbar = ({ showSearchBar=false, handelSearchChange=null, searchValue=null
     setLoggedIn(false)
     setCurrentUser(null)
     localStorage.removeItem('access_token');
-    window.location.href = '/';
+    window.location.replace('/')
   }
 
   return (

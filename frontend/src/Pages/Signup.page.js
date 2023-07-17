@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { TextField, Button, Box, Link, Container, Divider, Typography } from '@mui/material';
+import { TextField, Button, Box, Container, Divider, Typography } from '@mui/material';
+import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar.component';
 
 const Signup = () => {
@@ -29,7 +30,7 @@ const Signup = () => {
         body: JSON.stringify(formData),
       });
       if (response.ok) {
-        window.location.href = '/';
+        window.location.replace('/')
       } else {
         const error = await response.json();
         throw new Error(error.message);
@@ -119,7 +120,7 @@ const Signup = () => {
                     </Button>
                 </Box>
                 <Box sx={{ mt: 2, textAlign: 'center' }}>
-                <Link href="/login" variant="body2">
+                <Link to="/login" variant="body2">
                     Already have an account? Login
                 </Link>
                 </Box>

@@ -13,6 +13,7 @@ function App() {
     <Routes>
       <Route path='/' exact element={<Navigate to="/blogs" />} />
       <Route path='/blogs' element={<Blogs />} />
+      <Route path='/blogs/me' element={<Blogs me />} />
       <Route path='/blogs/add' element={<BlogsAdd />} />
       <Route path='/blogs/:id' element={<BlogsDetail />} />
       <Route path='/login' element={<Login />} />

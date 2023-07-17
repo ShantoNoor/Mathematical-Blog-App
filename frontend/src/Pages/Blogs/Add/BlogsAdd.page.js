@@ -18,7 +18,7 @@ const BlogsAdd = () => {
     console.log(files)
 
     const myHeaders = new Headers();
-    myHeaders.append("Authorization", "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg5NjI2MTc1LCJqdGkiOiIwMTJmM2VkZmJjMjc0ZDJhYWY5ODkyZmY4ODA5MzJlYyIsInVzZXJfaWQiOjJ9.-cY7sZc_e_vuJ32lgZQRZJmcsrkGXn9YfFKqnyhyIM4");
+    myHeaders.append("Authorization", `JWT ${localStorage.getItem('access_token')}`);
 
     const formdata = new FormData();
     formdata.append("title", event.target.title.value);
@@ -45,7 +45,7 @@ const BlogsAdd = () => {
         navigate('/*', { replace: true })
       });
     
-    navigate("/blogs")
+      window.location.replace("/blogs")
   }
 
   return (

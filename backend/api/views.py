@@ -50,17 +50,22 @@ class UserProfileViewSet(viewsets.ModelViewSet):
 
 class BlogViewSet(viewsets.ModelViewSet):
     queryset = Blog.objects.all().filter(blog_status=STATUS_PUBLISHED).order_by('-created_at')
-    # queryset = Blog.objects.prefetch_related('reviews').prefetch_related('ratings').all().filter(Blog_status=STATUS_PUBLISHED).order_by('-created_at')
     serializer_class = BlogSerializer
 
-    # def get_permissions(self):
-    #     method = self.request.method
-    #     if method in permissions.SAFE_METHODS:
-    #         return [AllowAny()]
-    #     elif method == 'POST':
-    #         return [IsAuthenticated()]
-    #     elif method in ('PATCH', 'PUT', 'DELETE'):
-    #         return [BlogIsOwner()]
+    @action(detail=False, methods=['GET'], permission_classes=[BlogIsOwner])
+    def me(self, request):
+        blogs = Blog.objects.filter(author_id=request.user.id)
+        serializer = BlogSerializer(blogs, many=True)
+        return Response(serializer.data)
+
+    def get_permissions(self):
+        method = self.request.method
+        if method in permissions.SAFE_METHODS:
+            return [AllowAny()]
+        elif method == 'POST':
+            return [IsAuthenticated()]
+        elif method in ('PATCH', 'PUT', 'DELETE'):
+            return [BlogIsOwner()]
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()

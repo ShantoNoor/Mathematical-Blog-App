@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { TextField, Button, Link, Divider, Typography, Container } from '@mui/material';
+import { TextField, Button, Divider, Typography, Container } from '@mui/material';
 import Navbar from '../components/Navbar.component';
+import { Link } from 'react-router-dom';
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -73,7 +74,7 @@ const Login = () => {
                     Login
                 </Button>
                 {loginError && <p>{loginError}</p>}
-                <Link href="/signup" style={{ marginTop: 16 }}>
+                <Link to="/signup" style={{ marginTop: 16 }}>
                     Don't have an account? Create one.
                 </Link>
             </form>

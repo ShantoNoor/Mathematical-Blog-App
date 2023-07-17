@@ -8,7 +8,8 @@ import {
   Container,
   CircularProgress,
   Snackbar,
-  Divider
+  Divider,
+  Input
 } from "@mui/material";
 import Navbar from "../components/Navbar.component";
 
@@ -59,6 +60,34 @@ const Profile = () => {
       .catch((error) => console.error(error));
   };
 
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [previewImage, setPreviewImage] = useState(null);
+
+  function handleFileInputChange(event) {
+    setSelectedFile(event.target.files[0]);
+    setPreviewImage(URL.createObjectURL(event.target.files[0]));
+  }
+
+  function handleUploadClick() {
+    const formData = new FormData();
+    formData.append('profilePicture', selectedFile);
+
+    fetch('/api/uploadProfilePicture', {
+      method: 'POST',
+      body: formData,
+    })
+      .then(response => {
+        if (response.ok) {
+          console.log('Profile picture uploaded successfully');
+        } else {
+          console.log('Failed to upload profile picture');
+        }
+      })
+      .catch(error => {
+        console.error('Error uploading profile picture:', error);
+      });
+  }
+
   const handleCloseSnackbar = () => {
     setOpenSnackbar(false);
   };
@@ -71,7 +100,8 @@ const Profile = () => {
   };
 
   if (loading) {
-    return <CircularProgress />;
+    return <CircularProgress style={{ position: 'absolute', top: '10%', left: '45%' }}
+    size={100}/>;
   }
 
   return (
@@ -88,8 +118,27 @@ const Profile = () => {
           }
         }}>
           <Box>
-            <Avatar src={user.profile_picture} sx={{height:'250px', width:'250px',
-          }}/>
+            <Avatar src={user.profile_picture} sx={{height:'250px', width:'250px'}}/>
+            <Box>
+              <Input
+                type="file"
+                onChange={handleFileInputChange}
+                accept="image/*"
+                style={{ display: 'none' }}
+                id="file-input"
+                name="profile_picture"
+              />
+              <label htmlFor="file-input">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  component="span"
+                  sx={{width:'100%', marginTop:'2em'}}
+                >
+                  Upload Photo
+                </Button>
+              </label>
+            </Box>
           </Box>
           <Box sx={{display:'flex', flexDirection:'column', gap:'2em', flex:'1',
             [`@media (max-width: 550px)`]: {
@@ -143,6 +192,10 @@ const Profile = () => {
             autoHideDuration={3000}
             onClose={handleCloseSnackbar}
             message="Update successful"
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'center',
+            }}
           />
         </Box>
       </Container>
