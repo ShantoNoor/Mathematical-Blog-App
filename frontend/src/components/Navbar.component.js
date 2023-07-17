@@ -31,6 +31,7 @@ const Navbar = ({ showSearchBar=false, handelSearchChange=null, searchValue=null
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [accountMenuOpen, setAccountMenuOpen] = useState(null);
   const [loggedIn, setLoggedIn] = useState(false)
+  const [currentUser, setCurrentUser] = useState(null)
 
   const handleMobileMenuOpen = () => {
     setMobileMenuOpen(true);
@@ -64,11 +65,31 @@ const Navbar = ({ showSearchBar=false, handelSearchChange=null, searchValue=null
     const accessToken = localStorage.getItem('access_token');
     if(accessToken) {
       setLoggedIn(true)
+      fetch('http://127.0.0.1:8000/auth/users/me/', {
+        method: 'GET',
+        headers: {
+          Authorization: `JWT ${accessToken}`
+        }
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then((data) => {
+          // console.log(data);
+          setCurrentUser(data)
+        })
+        .catch((error) => {
+          console.error('There was a problem with the fetch operation:', error);
+        });
     }
   }, [])
 
   const logoutHandler = () => {
     setLoggedIn(false)
+    setCurrentUser(null)
     localStorage.removeItem('access_token');
     window.location.href = '/';
   }
@@ -194,7 +215,7 @@ const Navbar = ({ showSearchBar=false, handelSearchChange=null, searchValue=null
                 </Button>
               ))}
 
-              { loggedIn && 
+              { loggedIn && currentUser &&
                 <>
                   <IconButton
                     color="inherit"
@@ -204,7 +225,7 @@ const Navbar = ({ showSearchBar=false, handelSearchChange=null, searchValue=null
                     sx={{ ml: 1 }}
                   >
                     <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                      {'A'}
+                      {currentUser.username[0]}
                     </Avatar>
                   </IconButton>
 
