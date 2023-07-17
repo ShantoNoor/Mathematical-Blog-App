@@ -9,36 +9,47 @@ import {
   CircularProgress,
   Snackbar,
   Divider,
-  Input
+  Input,
 } from "@mui/material";
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import Navbar from "../components/Navbar.component";
 
 const Profile = () => {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
+  const [profile, setProfile] = useState(null);
   const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [previewImage, setPreviewImage] = useState(null);
 
   useEffect(() => {
     // Fetch user data on mount
-    // fetch("/api/user")
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     setUser(data);
-    //     setLoading(false);
-    //   })
-    //   .catch((error) => console.error(error));
-
-    const u = {
-        profile_picture: 'https://www.seiu1000.org/sites/main/files/main-images/camera_lense_0.jpeg',
-        first_name: 'Hello',
-        last_name: 'World',
-        username: 'afcalk',
-        email: 'helloworld@gmail.com',
-        phone: '234242342432',
-        birth_date: '1212345'
+    fetch("http://127.0.0.1:8000/auth/users/me/", {
+      headers: {
+        Authorization: `JWT ${localStorage.getItem('access_token')}`
       }
-      setUser(u);
-        setLoading(false);
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setUser(data);
+        console.log(data)
+      })
+      .catch((error) => console.error(error));
+    
+    fetch("http://127.0.0.1:8000/api/profiles/me", {
+      headers: {
+        Authorization: `JWT ${localStorage.getItem('access_token')}`
+      }
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setProfile(data);
+        setPreviewImage(data.profile_picture)
+        console.log(data)
+      })
+      .catch((error) => console.error(error));
+
+    setLoading(false);
   }, []);
 
   const handleUpdate = () => {
@@ -59,9 +70,6 @@ const Profile = () => {
       })
       .catch((error) => console.error(error));
   };
-
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [previewImage, setPreviewImage] = useState(null);
 
   function handleFileInputChange(event) {
     setSelectedFile(event.target.files[0]);
@@ -118,7 +126,7 @@ const Profile = () => {
           }
         }}>
           <Box>
-            <Avatar src={user.profile_picture} sx={{height:'250px', width:'250px'}}/>
+            <Avatar src={previewImage} sx={{height:'250px', width:'250px'}}/>
             <Box>
               <Input
                 type="file"
@@ -146,43 +154,37 @@ const Profile = () => {
             }
           }}>
             <Typography variant="h4" gutterBottom>
-              {user.username}
+              {user ? user.username : ''}
             </Typography>
             <TextField
               label="First Name"
               name="first_name"
-              value={user.first_name}
+              value={user ? user.first_name : ''}
               onChange={handleChange}
               fullWidth
             />
             <TextField
               label="Last Name"
               name="last_name"
-              value={user.last_name}
+              value={user ? user.last_name : ''}
               onChange={handleChange}
               fullWidth
             />
             <TextField
               label="Email"
               name="email"
-              value={user.email}
+              value={user ? user.email : ''}
               onChange={handleChange}
               fullWidth
             />
             <TextField
               label="Phone"
               name="phone"
-              value={user.phone}
+              value={profile ? profile.phone : ''}
               onChange={handleChange}
               fullWidth
-            />
-            <TextField
-              label="Birth Date"
-              name="birth_date"
-              value={user.birth_date}
-              onChange={handleChange}
-              fullWidth
-            />
+            />]
+            
             <Button variant="contained" onClick={handleUpdate}>
               Update
             </Button>
