@@ -2,11 +2,14 @@ import React, { useEffect, useState } from 'react'
 import PostItem from '../components/PostItem.component'
 import { Container, Typography, Divider, Grid } from '@mui/material';
 import Navbar from '../components/Navbar.component';
+import { useNavigate } from 'react-router-dom';
 
 
 const Blogs = () => {
   const [blogs, setPosts] = useState([])
   const [filteredPosts, setFilteredPosts] = useState([])
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     fetch('http://127.0.0.1:8000/api/blogs/')
@@ -20,7 +23,10 @@ const Blogs = () => {
           setPosts(blogs)
 				}
       })
-      .catch(error => console.error(error))
+      .catch(error => {
+        console.error(error)
+        navigate('/*', { replace: true })
+      })
   }, [])
 
   const [searchValue, setSearchValue] = useState('')

@@ -18,7 +18,7 @@ const BlogsDetail = () => {
 				if(response.statusText === 'OK')
 					return response.json()
 
-        navigate("*")
+        navigate('/*', { replace: true })
 				return ''
 			})
       .then(data => {
@@ -27,7 +27,10 @@ const BlogsDetail = () => {
 					setContent(data.content)
 				}
       })
-      .catch(error => console.error(error))
+      .catch(error => {
+        console.error(error)
+        navigate('/*', { replace: true })
+      })
   })
 
   return (

@@ -42,6 +42,7 @@ const BlogsAdd = () => {
       .then(result => console.log(result))
       .catch(error => {
         console.log('error', error)
+        navigate('/*', { replace: true })
       });
     
     navigate("/blogs")
