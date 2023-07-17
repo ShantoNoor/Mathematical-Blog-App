@@ -9,8 +9,15 @@ const Blogs = () => {
   const [blogs, setPosts] = useState([])
   const [filteredPosts, setFilteredPosts] = useState([])
   const navigate = useNavigate();
-
-
+  const u = {
+    profile_picture: 'asjfsasdasfasfasf',
+    first_name: 'Hello',
+    last_name: 'World',
+    username: 'afcalk',
+    email: 'helloworld@gmail.com',
+    phone: '234242342432',
+    birth_date: '1212345'
+  }
   useEffect(() => {
     fetch('http://127.0.0.1:8000/api/blogs/')
       .then(response => {

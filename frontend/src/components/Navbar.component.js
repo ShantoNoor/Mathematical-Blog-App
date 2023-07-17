@@ -52,7 +52,6 @@ const Navbar = ({ showSearchBar=false, handelSearchChange=null, searchValue=null
   const menuItemsLoggedIn = [
     { id:11, text: 'All Blogs', path: '/' },
     { id:12, text: 'My Blogs', path: '/blogs/me' },
-    { id:13, text: 'My Profile', path: '/profiles/me' }
   ];
 
   const menuItemsNotLoggedIn = [
@@ -235,7 +234,7 @@ const Navbar = ({ showSearchBar=false, handelSearchChange=null, searchValue=null
                     open={Boolean(accountMenuOpen)}
                     onClose={handleAccountMenuClose}
                   >
-                    <MenuItem key={'2'} onClick={() => console.log('My Profile clicked')}>
+                    <MenuItem key={'2'} onClick={() => window.location.replace('/me')}>
                       My Profile
                     </MenuItem>
                     <MenuItem key={'3'} onClick={logoutHandler}>

@@ -6,6 +6,7 @@ import BlogsDetail from './pages/BlogsDetail.page';
 import NotFound from './pages/NotFound.page';
 import Login from './pages/Login.page'
 import Signup from './pages/Signup.page'
+import MyProfile from './pages/MyProfile.page';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <Route path='/blogs/:id' element={<BlogsDetail />} />
       <Route path='/login' element={<Login />} />
       <Route path='/signup' element={<Signup />} />
+      <Route path='/me' element={<MyProfile />} />
       <Route path='*' element={<NotFound title='Page' />} />
     </Routes>
   );
