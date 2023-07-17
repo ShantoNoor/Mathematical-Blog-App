@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   AppBar,
   Toolbar,
@@ -56,9 +56,22 @@ const Navbar = ({ showSearchBar=false, handelSearchChange=null, searchValue=null
 
   const menuItemsNotLoggedIn = [
     { id:22, text: 'All Blogs', path: '/' },
-    { id:23, text: 'Sign Up', path: '*' },
-    { id:24, text: 'Login', path: '*' },
+    { id:24, text: 'Login', path: '/login' },
+    { id:23, text: 'Sign Up', path: '/signup' },
   ];
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem('access_token');
+    if(accessToken) {
+      setLoggedIn(true)
+    }
+  }, [])
+
+  const logoutHandler = () => {
+    setLoggedIn(false)
+    localStorage.removeItem('access_token');
+    window.location.href = '/';
+  }
 
   return (
     <AppBar position="static">
@@ -135,7 +148,7 @@ const Navbar = ({ showSearchBar=false, handelSearchChange=null, searchValue=null
                 {loggedIn && <>
                   <ListItem
                     key={'logout'}
-                    onClick={handleMobileMenuClose}
+                    onClick={logoutHandler}
                     component={NavLink}
                     to='/'
                     activeclasscame="active"
@@ -204,7 +217,7 @@ const Navbar = ({ showSearchBar=false, handelSearchChange=null, searchValue=null
                     <MenuItem key={'2'} onClick={() => console.log('My Profile clicked')}>
                       My Profile
                     </MenuItem>
-                    <MenuItem key={'3'} onClick={() => console.log('Logout clicked')}>
+                    <MenuItem key={'3'} onClick={logoutHandler}>
                       Logout
                     </MenuItem>
                   </Menu>
