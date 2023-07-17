@@ -8,7 +8,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { red } from '@mui/material/colors';
 
-const PostItem = ({blog}) => {
+const BlogItem = ({blog}) => {
   const formattedDate = new Date(blog.created_at).toLocaleString('en-US', {
     year: 'numeric',
     month: 'long',
@@ -119,4 +119,4 @@ const PostItem = ({blog}) => {
   )
 }
 
-export default PostItem
+export default BlogItem

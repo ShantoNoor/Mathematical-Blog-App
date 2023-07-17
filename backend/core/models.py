@@ -61,7 +61,7 @@ class Blog(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    post_status = models.CharField(
+    blog_status = models.CharField(
         max_length=9, choices=STATUS_CHOICES, default=STATUS_PUBLISHED
     )
 

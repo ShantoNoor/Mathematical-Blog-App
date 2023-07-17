@@ -9,6 +9,6 @@ class IsOwner(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):  
         return obj.user_id == request.user.id
 
-class PostIsOwner(permissions.BasePermission):
+class BlogIsOwner(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):  
         return obj.author.id == request.user.id

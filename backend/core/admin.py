@@ -5,7 +5,6 @@ from core.models import (User, UserProfile, Comment, Like, Image, Rating, Blog,
 from django.contrib.auth.models import Group
 
 # Register your models here.
-GROUP_MODERATOR = Group.objects.get_or_create(name='Moderator')
 
 admin.site.register(Rating)
 admin.site.register(Comment)
@@ -47,6 +46,7 @@ class UserProfileAdmin(admin.ModelAdmin):
         else:
             user.is_staff = True
 
+        GROUP_MODERATOR, created = Group.objects.get_or_create(name='Moderator')
         if user and form_data.get('profile_type') == PROFILE_MODERATOR:
             GROUP_MODERATOR.user_set.add(user)
         else:
@@ -59,15 +59,15 @@ class UserProfileAdmin(admin.ModelAdmin):
 
 
 @admin.register(Blog)
-class PostAdmin(admin.ModelAdmin):
-    list_display = ['title', 'author', 'post_status']
-    list_editable = ['post_status']
+class BlogAdmin(admin.ModelAdmin):
+    list_display = ['title', 'author', 'blog_status']
+    list_editable = ['blog_status']
     list_per_page = 10
     ordering = ['title']
 
     # def get_queryset(self, request: HttpRequest) -> QuerySet[Any]:
-    #     qs1 = Blog.objects.filter(post_status=STATUS_PENDING).all().order_by('-created_at')
-    #     qs2 = Blog.objects.filter(post_status=STATUS_PUBLISHED).all().order_by('-created_at')
-    #     qs3 = Blog.objects.filter(post_status=STATUS_REJECTED).all().order_by('-created_at')
+    #     qs1 = Blog.objects.filter(blog_status=STATUS_PENDING).all().order_by('-created_at')
+    #     qs2 = Blog.objects.filter(blog_status=STATUS_PUBLISHED).all().order_by('-created_at')
+    #     qs3 = Blog.objects.filter(blog_status=STATUS_REJECTED).all().order_by('-created_at')
     #     # qs = qs1.union(qs2)
     #     return qs1 | qs2 |qs3

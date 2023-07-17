@@ -4,19 +4,19 @@ from core.serializers import UserSerializer
 
 class ImageSerializer(serializers.ModelSerializer):
     user_id = serializers.IntegerField(read_only=True)
-    post_id = serializers.IntegerField(read_only=True)
+    blog_id = serializers.IntegerField(read_only=True)
     class Meta:
         model = Image
-        fields = ['id', 'user_id', 'post_id', 'image', 'created_at', 'updated_at']
+        fields = ['id', 'user_id', 'blog_id', 'image', 'created_at', 'updated_at']
     
     def create(self, validated_data):
-        post_id = self.context['post_id']
+        blog_id = self.context['blog_id']
         user_id = self.context['request'].user.id
-        return Image.objects.create(post_id=post_id, user_id=user_id, **validated_data)
+        return Image.objects.create(blog_id=blog_id, user_id=user_id, **validated_data)
 
 
-class PostSerializer(serializers.ModelSerializer):
-    post_status = serializers.ChoiceField(choices=STATUS_CHOICES, read_only=True)
+class BlogSerializer(serializers.ModelSerializer):
+    blog_status = serializers.ChoiceField(choices=STATUS_CHOICES, read_only=True)
     views = serializers.IntegerField(read_only=True)
     # reviews = ReviewSerializer(many=True, read_only=True)
     # ratings = RatingSerializer(many=True, read_only=True)
@@ -31,7 +31,7 @@ class PostSerializer(serializers.ModelSerializer):
     )
 
     # def get_rating(self, blog):
-    #     qs = Rating.objects.all().filter(post_id=blog.id)
+    #     qs = Rating.objects.all().filter(blog_id=blog.id)
     #     total_rating = 0
     #     count_user = 0
     #     for rating in qs:
@@ -56,7 +56,7 @@ class PostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Blog
-        fields = ['id', 'title', 'content', 'views', 'created_at', 'updated_at', 'post_status', 'author', 'images', 'uploaded_images']
+        fields = ['id', 'title', 'content', 'views', 'created_at', 'updated_at', 'blog_status', 'author', 'images', 'uploaded_images']
         # fields = ('id', 'field1', 'field2')
         # exclude = ('field3',)
 

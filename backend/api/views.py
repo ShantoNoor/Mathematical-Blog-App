@@ -5,8 +5,8 @@ from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser, D
 from rest_framework import viewsets, permissions
 from rest_framework.decorators import action
 from core.models import Blog, UserProfile, Image, STATUS_PUBLISHED
-from .serializers import UserProfileSerializer, PostSerializer, ImageSerializer
-from .permissions import IsOwnerOrAdmin, IsOwner, PostIsOwner
+from .serializers import UserProfileSerializer, BlogSerializer, ImageSerializer
+from .permissions import IsOwnerOrAdmin, IsOwner, BlogIsOwner
 
 UNSAFE_METHODS = ('PATCH', 'PUT', 'DELETE')
 
@@ -48,10 +48,10 @@ class UserProfileViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
     
 
-class PostViewSet(viewsets.ModelViewSet):
-    queryset = Blog.objects.all().filter(post_status=STATUS_PUBLISHED).order_by('-created_at')
-    # queryset = Blog.objects.prefetch_related('reviews').prefetch_related('ratings').all().filter(Post_status=STATUS_PUBLISHED).order_by('-created_at')
-    serializer_class = PostSerializer
+class BlogViewSet(viewsets.ModelViewSet):
+    queryset = Blog.objects.all().filter(blog_status=STATUS_PUBLISHED).order_by('-created_at')
+    # queryset = Blog.objects.prefetch_related('reviews').prefetch_related('ratings').all().filter(Blog_status=STATUS_PUBLISHED).order_by('-created_at')
+    serializer_class = BlogSerializer
 
     # def get_permissions(self):
     #     method = self.request.method
@@ -60,7 +60,7 @@ class PostViewSet(viewsets.ModelViewSet):
     #     elif method == 'POST':
     #         return [IsAuthenticated()]
     #     elif method in ('PATCH', 'PUT', 'DELETE'):
-    #         return [PostIsOwner()]
+    #         return [BlogIsOwner()]
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -88,7 +88,7 @@ class ImageViewSet(viewsets.ModelViewSet):
     serializer_class = ImageSerializer
 
     def get_queryset(self):
-        return Image.objects.filter(post_id=self.kwargs['post_pk']).order_by('-created_at')
+        return Image.objects.filter(blog_id=self.kwargs['blog_pk']).order_by('-created_at')
     
     def get_permissions(self):
         method = self.request.method
@@ -102,5 +102,5 @@ class ImageViewSet(viewsets.ModelViewSet):
     def get_serializer_context(self):
         context = super().get_serializer_context()
         context.update({'request': self.request})
-        context.update({'post_id': self.kwargs['post_pk']})
+        context.update({'blog_id': self.kwargs['blog_pk']})
         return context

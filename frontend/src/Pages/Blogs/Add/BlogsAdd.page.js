@@ -11,7 +11,7 @@ const BlogsAdd = () => {
     setFiles(event.target.files)
   }
 
-  const addPost = (event) => {
+  const addBlog = (event) => {
     event.preventDefault()
     console.log(event.target.title.value)
     console.log(event.target.content.value)
@@ -53,7 +53,7 @@ const BlogsAdd = () => {
       <Navbar />
       <section className='blog-add'>
         <h1 className='blog-add__title'>Add Blog</h1>
-        <form className='blog-form' onSubmit={addPost}>
+        <form className='blog-form' onSubmit={addBlog}>
           <input className='blog-form__title' type='text' name='title' placeholder='Blog Title' />
           <textarea className='blog-form__content' name='content' placeholder='Blog Content' />
           <input type='file' multiple name='uploaded_images' onChange={handelFiles} />
