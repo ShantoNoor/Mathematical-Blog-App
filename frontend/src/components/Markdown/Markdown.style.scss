@@ -25,6 +25,12 @@
         position: relative;
         left: 3em;
     }
+
+    & table, & table td, & table th {
+        border-collapse: collapse;
+        border: 1px solid #96D4D4;
+        padding: 5px;
+    }
 }
 
 

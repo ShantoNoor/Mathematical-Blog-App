@@ -63,9 +63,11 @@ const Navbar = ({ showSearchBar=false, handelSearchChange=null, searchValue=null
   return (
     <AppBar position="static">
       <Toolbar sx={{justifyContent: 'space-between'}}>
-        <Typography variant="h6" component="div">
-          Mathematical Blog App
-        </Typography>
+        <Box sx={{cursor:'pointer'}} onClick={() => {console.log('Clicked MBA')}}>
+          <Typography variant="h6" component="div">
+            Mathematical Blog App
+          </Typography>
+        </Box>
 
         {isMobile ? (
           <>
