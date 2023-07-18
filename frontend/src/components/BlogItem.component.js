@@ -102,7 +102,7 @@ const BlogItem = ({blog}) => {
               }}
             >
               <MenuItem onClick={() => {
-                console.log('helo')
+                navigate(`/blogs/edit/${blog.id}/`)
               }}>Edit Blog</MenuItem>
 
               <MenuItem onClick={() => {
@@ -157,7 +157,7 @@ const BlogItem = ({blog}) => {
 
           <Tooltip title="Read Blog">
             { userId === blog.author.id ? 
-              <IconButton aria-label="read" onClick={() => navigate(`/blogs/${blog.id}/my_blog/`)} sx={{borderRadius: '8px', '&:hover': { borderRadius: '8px'}}}>
+              <IconButton aria-label="read" onClick={() => navigate(`/blogs/my_blog/${blog.id}/`)} sx={{borderRadius: '8px', '&:hover': { borderRadius: '8px'}}}>
                 <ArticleIcon color='secondary'/>
                 <Typography variant='span' component='span' sx={{fontSize: '16px'}}>READ</Typography>
               </IconButton> :

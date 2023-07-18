@@ -52,6 +52,23 @@ class BlogSerializer(serializers.ModelSerializer):
             Image.objects.create(user=author, blog=blog, image=image)
         
         return blog
+    
+    def update(self, instance, validated_data):
+        uploaded_images = validated_data.pop('uploaded_images', None)
+
+        instance.title = validated_data.get('title', instance.title)
+        instance.content = validated_data.get('content', instance.content)
+        instance.blog_status = validated_data.get('blog_status', instance.blog_status)
+        instance.save()
+
+        if uploaded_images:
+            # Create new images for the instance
+            for image in uploaded_images:
+                Image.objects.create(user=instance.author, blog=instance, image=image)
+
+        return instance
+
+
 
 
     class Meta:
