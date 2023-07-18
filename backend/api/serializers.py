@@ -83,8 +83,6 @@ class BlogSerializer(serializers.ModelSerializer):
     class Meta:
         model = Blog
         fields = ['id', 'title', 'content', 'views', 'created_at', 'updated_at', 'blog_status', 'author', 'images', 'uploaded_images', 'rating', 'ratings']
-        # fields = ('id', 'field1', 'field2')
-        # exclude = ('field3',)
 
 
 class UserProfileSerializer(serializers.ModelSerializer):

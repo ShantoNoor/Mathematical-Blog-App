@@ -63,8 +63,6 @@ const BlogsAddOrUpdate = ({my_blog=false}) => {
     myHeaders.append("Authorization", `JWT ${localStorage.getItem('access_token')}`);
     // if(my_blog) myHeaders.append("Content-Type", 'application/json');
 
-    console.log(myHeaders)
-
     const formdata = new FormData();
     formdata.append("title", title);
     formdata.append("content", content);
@@ -89,15 +87,17 @@ const BlogsAddOrUpdate = ({my_blog=false}) => {
     if(my_blog) url = url + id + '/my_blog/'
 
     fetch(url, requestOptions)
-      .then(response => {
-        if(response.statusText === 'OK')
-					return response.json()
-          
-        navigate('/*', { replace: true })
-				return ''
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
       })
-      .catch(error => {
-        console.log('error', error)
+      .then((data) => {
+        navigate('/blogs/me', { replace: true })
+      })
+      .catch((error) => {
+        console.error('There was a problem with the fetch operation:', error);
         navigate('/*', { replace: true })
       });
   }
@@ -106,7 +106,7 @@ const BlogsAddOrUpdate = ({my_blog=false}) => {
     <>
       <Navbar />
       <Container>
-        <Typography variant='h2' component="h1" mt={3} mb={3}>Add Blog</Typography>
+        <Typography variant='h2' component="h1" mt={3} mb={3}>{my_blog ? 'Update Blog' : 'Add Blog'}</Typography>
         <Divider />
         <form className='blog-form' onSubmit={addBlog}>
           <TextField
@@ -135,7 +135,7 @@ const BlogsAddOrUpdate = ({my_blog=false}) => {
             size='medium'
           />
           <input className='blog-form__img-upload' type='file' multiple name='uploaded_images' onChange={handelFiles} />
-          <FormControl className='blog-form__status'>
+          <FormControl className='blog-form__status' sx={{ width: '100%' }}>
             <InputLabel id='blog-status-label'>Blog Status</InputLabel>
             <Select
               name='blog_status'

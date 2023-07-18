@@ -70,17 +70,6 @@ class Blog(models.Model):
         return self.title
 
 
-class Comment(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
-    blog = models.ForeignKey(Blog, on_delete=models.CASCADE, related_name='comments')
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    comment = models.TextField(blank=True, null=True)
-
-    def __str__(self) -> str:
-        return f'{self.user.first_name} {self.user.last_name} - {self.review}'
-
-
 class Image(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='images')
     blog = models.ForeignKey(Blog, on_delete=models.CASCADE, related_name='images')
@@ -108,15 +97,3 @@ class Rating(models.Model):
     def __str__(self) -> str:
         return f'{self.user.first_name} {self.user.last_name} - Rate: {self.rating}'
     
-
-class Like(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='likes')
-    blog = models.ForeignKey(Blog, on_delete=models.CASCADE, related_name='likes')
-    created_at = models.DateTimeField(auto_now_add=True)
-    like = models.BooleanField(default=False)
-
-    class Meta:
-        unique_together = ('user', 'blog')
-
-    def __str__(self) -> str:
-        return f'{self.user.first_name} {self.user.last_name} - Like: {self.like}'

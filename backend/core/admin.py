@@ -1,14 +1,12 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from core.models import (User, UserProfile, Comment, Like, Image, Rating, Blog,
+from core.models import (User, UserProfile, Image, Rating, Blog,
     PROFILE_ADMIN, PROFILE_MODERATOR, PROFILE_USER, STATUS_PUBLISHED, STATUS_PENDING, STATUS_REJECTED)
 from django.contrib.auth.models import Group
 
 # Register your models here.
 
 admin.site.register(Rating)
-admin.site.register(Comment)
-admin.site.register(Like)
 admin.site.register(Image)
 
 @admin.register(User)
@@ -64,10 +62,4 @@ class BlogAdmin(admin.ModelAdmin):
     list_editable = ['blog_status']
     list_per_page = 10
     ordering = ['title']
-
-    # def get_queryset(self, request: HttpRequest) -> QuerySet[Any]:
-    #     qs1 = Blog.objects.filter(blog_status=STATUS_PENDING).all().order_by('-created_at')
-    #     qs2 = Blog.objects.filter(blog_status=STATUS_PUBLISHED).all().order_by('-created_at')
-    #     qs3 = Blog.objects.filter(blog_status=STATUS_REJECTED).all().order_by('-created_at')
-    #     # qs = qs1.union(qs2)
-    #     return qs1 | qs2 |qs3
+    

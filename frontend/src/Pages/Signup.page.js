@@ -112,7 +112,7 @@ const Signup = () => {
                 value={formData.password}
                 onChange={handleInputChange}
                 />
-                <Box sx={{display:'flex', justifyContent:'center', gap:'10px'}}>
+                <Box sx={{display:'flex', justifyContent:'center', gap:'1em', margin:'1em'}}>
                     <Button type="submit" variant="contained" size="large">
                         Sign up
                     </Button>
@@ -120,7 +120,7 @@ const Signup = () => {
                         Reset
                     </Button>
                 </Box>
-                <Box sx={{ mt: 2, textAlign: 'center' }}>
+                <Box sx={{ mt: '2em', textAlign: 'center' }}>
                 <Link to="/login" variant="body2">
                     Already have an account? Login
                 </Link>

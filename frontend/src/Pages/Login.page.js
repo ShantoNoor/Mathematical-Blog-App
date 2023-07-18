@@ -71,11 +71,11 @@ const Login = () => {
                     value={password}
                     onChange={handlePasswordChange}
                 />
-                <Button variant="contained" color="primary" style={{ margin: 16 }} onClick={handleLogin}>
+                <Button variant="contained" color="primary" size='large' style={{ marginTop: '1em' }} onClick={handleLogin}>
                     Login
                 </Button>
                 {loginError && <p>{loginError}</p>}
-                <Link to="/signup" style={{ marginTop: 16 }}>
+                <Link to="/signup" style={{ marginTop: '2em' }}>
                     Don't have an account? Create one.
                 </Link>
             </form>

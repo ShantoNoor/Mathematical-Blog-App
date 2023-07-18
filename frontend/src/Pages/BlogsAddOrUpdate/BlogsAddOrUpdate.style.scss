@@ -22,12 +22,15 @@
         grid-area: upload_;
         justify-self: center;
         align-self: center;
+        font-size: 1em;
     }
 
     &__status {
         grid-area: status_;
         justify-self: center;
         align-self: center;
+
+        
     }
 
     &__submit {

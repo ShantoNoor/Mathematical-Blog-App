@@ -2,7 +2,6 @@ import { Card, CardActions, CardContent, CardHeader, Typography, IconButton, Too
 import StarIcon from '@mui/icons-material/Star';
 import ArticleIcon from '@mui/icons-material/Article';
 import WatchLaterIcon from '@mui/icons-material/WatchLater';
-import FavoriteIcon from '@mui/icons-material/Favorite'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -133,17 +132,10 @@ const BlogItem = ({blog}) => {
         justifyContent: 'space-between',
         width: "100%"
       }}>
-          <Tooltip title="Blog Likes">
-            <Box sx={{ display:'flex', alignItems: 'center', marginLeft: 1}}>
-              <FavoriteIcon color='error'/>
-              <Typography variant='span'>43</Typography>
-            </Box>
-          </Tooltip>
-
           <Tooltip title="Blog Rating">
             <Box sx={{ display:'flex', alignItems: 'center', marginLeft: 1}}>
               <StarIcon color='primary'/>
-              <Typography variant='span'>4.3</Typography>
+              <Typography variant='span'>{blog.rating}</Typography>
             </Box>
           </Tooltip>
 
