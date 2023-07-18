@@ -1,4 +1,4 @@
-import { Badge, Card, CardActions, CardContent, CardHeader, Typography, IconButton, Tooltip, Box, Avatar, Menu, MenuItem } from '@mui/material'
+import { Card, CardActions, CardContent, CardHeader, Typography, IconButton, Tooltip, Box, Avatar, Menu, MenuItem } from '@mui/material'
 import StarIcon from '@mui/icons-material/Star';
 import ArticleIcon from '@mui/icons-material/Article';
 import WatchLaterIcon from '@mui/icons-material/WatchLater';
@@ -106,7 +106,7 @@ const BlogItem = ({blog}) => {
               }}>Edit Blog</MenuItem>
 
               <MenuItem onClick={() => {
-                fetch("http://127.0.0.1:8000/api/blogs/"+blog.id+"/", {
+                fetch(`http://127.0.0.1:8000/api/blogs/${blog.id}/my_blog/`, {
                     method: 'DELETE',
                     headers: {
                       'Authorization': `JWT ${localStorage.getItem('access_token')}`,
@@ -117,6 +117,7 @@ const BlogItem = ({blog}) => {
                     .then((res) => res.json())
                     .then((data) => {
                       console.log(data)
+                      alert('ji')
                     })
                     .catch((error) => console.error(error));
                     window.location.reload();
@@ -155,10 +156,16 @@ const BlogItem = ({blog}) => {
           </Tooltip>
 
           <Tooltip title="Read Blog">
-            <IconButton aria-label="read" onClick={() => navigate(`/blogs/${blog.id}`)} sx={{borderRadius: '8px', '&:hover': { borderRadius: '8px'}}}>
-              <ArticleIcon color='secondary'/>
-              <Typography variant='span' component='span' sx={{fontSize: '16px'}}>READ</Typography>
-            </IconButton>
+            { userId === blog.author.id ? 
+              <IconButton aria-label="read" onClick={() => navigate(`/blogs/${blog.id}/my_blog/`)} sx={{borderRadius: '8px', '&:hover': { borderRadius: '8px'}}}>
+                <ArticleIcon color='secondary'/>
+                <Typography variant='span' component='span' sx={{fontSize: '16px'}}>READ</Typography>
+              </IconButton> :
+              <IconButton aria-label="read" onClick={() => navigate(`/blogs/${blog.id}`)} sx={{borderRadius: '8px', '&:hover': { borderRadius: '8px'}}}>
+                <ArticleIcon color='secondary'/>
+                <Typography variant='span' component='span' sx={{fontSize: '16px'}}>READ</Typography>
+              </IconButton>
+            }
           </Tooltip>
         </Box>
       </CardActions>

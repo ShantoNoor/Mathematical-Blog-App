@@ -5,19 +5,21 @@ import { Container, Typography, Divider } from '@mui/material';
 import { CssBaseline } from '@mui/material';
 import Navbar from '../components/Navbar.component';
 
-const BlogsDetail = () => {
+const BlogsDetail = ({my_blog=false}) => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const { id } = useParams()
   const navigate = useNavigate();
 
-
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/api/blogs/' + id)
+    let url = 'http://127.0.0.1:8000/api/blogs/' + id
+    if(my_blog) url = url + '/my_blog/'
+
+    fetch(url)
       .then(response => {
 				if(response.statusText === 'OK')
 					return response.json()
-
+          
         navigate('/*', { replace: true })
 				return ''
 			})

@@ -7,6 +7,7 @@ from rest_framework.decorators import action
 from core.models import Blog, UserProfile, Image, STATUS_PUBLISHED
 from .serializers import UserProfileSerializer, BlogSerializer, ImageSerializer
 from .permissions import IsOwnerOrAdmin, IsOwner, BlogIsOwner
+from rest_framework import status
 
 UNSAFE_METHODS = ('PATCH', 'PUT', 'DELETE')
 
@@ -57,6 +58,27 @@ class BlogViewSet(viewsets.ModelViewSet):
         blogs = Blog.objects.filter(author_id=request.user.id)
         serializer = BlogSerializer(blogs, many=True)
         return Response(serializer.data)
+    
+
+    @action(detail=True, methods=['GET', 'PUT', 'PATCH', 'DELETE'], permission_classes=[BlogIsOwner])
+    def my_blog(self, request, pk=None):
+        try:
+            blog = Blog.objects.get(pk=pk)
+        except Blog.DoesNotExist:
+            return Response({'error': 'Blog not found'}, status=404)
+
+        if request.method in permissions.SAFE_METHODS:
+            serializer = BlogSerializer(blog)
+        elif request.method in ('PUT', 'PATCH'):
+            serializer = BlogSerializer(blog, data=request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+        elif request.method == 'DELETE':
+            blog.delete()
+            return Response({'message': 'Blog deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
+
+        return Response(serializer.data)
+        
 
     def get_permissions(self):
         method = self.request.method
@@ -72,21 +94,6 @@ class BlogViewSet(viewsets.ModelViewSet):
         instance.views += 1
         instance.save()
         return super().retrieve(request, *args, **kwargs)
-
-    # def destroy(self, request, *args, **kwargs):
-    #     instance = self.get_object()
-        
-    #     if instance.cover_photo:
-    #         file_path = instance.cover_photo.path
-    #         if default_storage.exists(file_path):
-    #             default_storage.delete(file_path)
-        
-    #     if instance.pdf:
-    #         file_path = instance.pdf.path
-    #         if default_storage.exists(file_path):
-    #             default_storage.delete(file_path)
-
-    #     return super().destroy(request, *args, **kwargs)
 
 
 class ImageViewSet(viewsets.ModelViewSet):
