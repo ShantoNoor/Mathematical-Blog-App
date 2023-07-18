@@ -1,37 +1,13 @@
-.blog-add {
-    padding: 10px;
-    &__title {
-        text-align: center;
-        text-shadow: 0 5px 20px rgba(0, 0, 0, 0.587);
-        padding: 40px;
-    }
-}
-
-.blog-form {
+.left {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    gap: 25px;
+    gap: 2em;
+}
 
-    & > *:not(:last-child) {
-        padding: 10px;
-        font-size: 18px;
-        width: 80vw;
+.right {
+    min-height: 100vh;
+}
 
-    }
-
-    // &__title {
-    // }
-
-    &__content {
-        height: 50vh;
-    }
-
-    &__btn {
-        padding: 10px 20px;
-        font-size: 18px;
-        // border-radius: 8px;
-        // border: none;
-    }
+.content {
+    
 }
