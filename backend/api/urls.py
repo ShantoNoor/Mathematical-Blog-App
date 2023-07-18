@@ -9,7 +9,7 @@ router.register(r'profiles', views.UserProfileViewSet)
 
 blog_router = routers.NestedDefaultRouter(router, 'blogs', lookup='blog')
 blog_router.register('images', views.ImageViewSet, basename='blog-images')
-# book_router.register('ratings', views.RatingViewSet, basename='book-ratings')
+blog_router.register('ratings', views.RatingViewSet, basename='book-ratings')
 
 urlpatterns = [
     path('', include(router.urls)),

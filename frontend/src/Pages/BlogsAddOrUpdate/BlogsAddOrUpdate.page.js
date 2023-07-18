@@ -5,6 +5,7 @@ import Navbar from '../../components/Navbar.component'
 import { Container, Divider, Typography, TextField, Box, Button, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import LinkList from '../../components/LinkList.compnoent';
+import Footer from '../../components/Footer.component';
 
 const BlogsAddOrUpdate = ({my_blog=false}) => {
   const navigate = useNavigate();
@@ -88,10 +89,12 @@ const BlogsAddOrUpdate = ({my_blog=false}) => {
     if(my_blog) url = url + id + '/my_blog/'
 
     fetch(url, requestOptions)
-      .then(response => response.text())
-      .then(result => {
-        // console.log(result)
-        navigate('/blogs/me', { replace: true })
+      .then(response => {
+        if(response.statusText === 'OK')
+					return response.json()
+          
+        navigate('/*', { replace: true })
+				return ''
       })
       .catch(error => {
         console.log('error', error)
@@ -152,6 +155,7 @@ const BlogsAddOrUpdate = ({my_blog=false}) => {
           {files && Array.from(files).map(file => <LinkList key={file.id} link_text={'http://127.0.0.1:8000' + file.image} />)}
         </Box>
       </Container>
+      <Footer />
     </>
   )
 }

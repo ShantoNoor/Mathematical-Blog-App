@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { TextField, Button, Box, Container, Divider, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar.component';
+import Footer from '../components/Footer.component';
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -127,6 +128,7 @@ const Signup = () => {
             </form>
             </Box>
         </Container>
+        <Footer />
     </>
   );
 };

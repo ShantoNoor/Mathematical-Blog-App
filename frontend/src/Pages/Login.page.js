@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { TextField, Button, Divider, Typography, Container } from '@mui/material';
 import Navbar from '../components/Navbar.component';
 import { Link } from 'react-router-dom';
+import Footer from '../components/Footer.component';
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -79,6 +80,7 @@ const Login = () => {
                 </Link>
             </form>
         </Container>
+      <Footer />
     </>
   );
 };

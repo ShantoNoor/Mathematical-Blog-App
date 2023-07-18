@@ -5,6 +5,7 @@ import Navbar from '../components/Navbar.component';
 import { useNavigate } from 'react-router-dom';
 import { Fab } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
+import Footer from '../components/Footer.component';
 
 const AddBlogButton = () => {
   const navigate = useNavigate();
@@ -89,6 +90,7 @@ const Blogs = ({me=false}) => {
           {filteredBlogs.map(blog => <Grid item xs={12} sm={6} md={4} key={blog.id}><BlogItem blog={blog} /></Grid> )}
         </Grid>
       </Container>
+      <Footer />
     </>
   )
 }

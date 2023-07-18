@@ -1,5 +1,6 @@
 import { Typography, Box, Container, Divider } from "@mui/material"
 import Navbar from "../components/Navbar.component"
+import Footer from "../components/Footer.component"
 
 const NotFound = ({ title }) => {
   return (
@@ -19,6 +20,7 @@ const NotFound = ({ title }) => {
           <Typography variant="h2">Error 404</Typography>
         </Box>
       </Container>
+      <Footer />
     </>
   )
 }

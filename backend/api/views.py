@@ -4,8 +4,8 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser, DjangoModelPermissions
 from rest_framework import viewsets, permissions
 from rest_framework.decorators import action
-from core.models import Blog, UserProfile, Image, STATUS_PUBLISHED
-from .serializers import UserProfileSerializer, BlogSerializer, ImageSerializer
+from core.models import Blog, UserProfile, Image, STATUS_PUBLISHED, Rating
+from .serializers import UserProfileSerializer, BlogSerializer, ImageSerializer, RatingSerializer
 from .permissions import IsOwnerOrAdmin, IsOwner, BlogIsOwner
 from rest_framework import status
 
@@ -101,6 +101,28 @@ class ImageViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return Image.objects.filter(blog_id=self.kwargs['blog_pk']).order_by('-created_at')
+    
+    def get_permissions(self):
+        method = self.request.method
+        if method in permissions.SAFE_METHODS:
+            return [AllowAny()]
+        elif method == 'POST':
+            return [IsAuthenticated()]
+        elif method in UNSAFE_METHODS:
+            return [IsOwner()]
+    
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context.update({'request': self.request})
+        context.update({'blog_id': self.kwargs['blog_pk']})
+        return context
+
+
+class RatingViewSet(viewsets.ModelViewSet):
+    serializer_class = RatingSerializer
+
+    def get_queryset(self):
+        return Rating.objects.filter(blog_id=self.kwargs['blog_pk']).order_by('-created_at')
     
     def get_permissions(self):
         method = self.request.method

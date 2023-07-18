@@ -12,6 +12,7 @@ import {
   Input,
 } from "@mui/material";
 import Navbar from "../components/Navbar.component";
+import Footer from "../components/Footer.component";
 
 const Profile = () => {
   const [loading, setLoading] = useState(true);
@@ -216,6 +217,7 @@ const Profile = () => {
           />
         </Box>
       </Container>
+      <Footer />
     </>
   );
 };

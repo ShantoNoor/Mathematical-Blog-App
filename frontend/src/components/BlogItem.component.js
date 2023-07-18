@@ -56,7 +56,7 @@ const BlogItem = ({blog}) => {
   return (
     <Card>
       <CardContent sx={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
-        <Typography variant="h4" color="text.secondary">
+        <Typography variant="h5" color="text.secondary">
           {blog.title}
         </Typography>
         {(blog.blog_status!=='Published') ? <Typography variant='span' sx={{backgroundColor:purple[500], color:'#fff', padding:'5px', borderRadius:'50px'}}>
@@ -117,7 +117,6 @@ const BlogItem = ({blog}) => {
                     .then((res) => res.json())
                     .then((data) => {
                       console.log(data)
-                      alert('ji')
                     })
                     .catch((error) => console.error(error));
                     window.location.reload();
