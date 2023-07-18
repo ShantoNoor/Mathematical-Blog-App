@@ -99,7 +99,7 @@ const Profile = () => {
     setLoading(false);
     setOpenSnackbar(true);
 
-    alert('hi')
+    window.location.reload()
   };
 
   function handleFileInputChange(event) {

@@ -32,6 +32,7 @@ const Navbar = ({ showSearchBar=false, handelSearchChange=null, searchValue=null
   const [accountMenuOpen, setAccountMenuOpen] = useState(null);
   const [loggedIn, setLoggedIn] = useState(false)
   const [currentUser, setCurrentUser] = useState(null)
+  const [currentUserProfile, setCurrentUserProfile] = useState(null)
 
   const handleMobileMenuOpen = () => {
     setMobileMenuOpen(true);
@@ -52,6 +53,7 @@ const Navbar = ({ showSearchBar=false, handelSearchChange=null, searchValue=null
   const menuItemsLoggedIn = [
     { id:11, text: 'All Blogs', path: '/' },
     { id:12, text: 'My Blogs', path: '/blogs/me' },
+    { id:12, text: 'Add Blog', path: '/blogs/add' },
   ];
 
   const menuItemsNotLoggedIn = [
@@ -77,12 +79,22 @@ const Navbar = ({ showSearchBar=false, handelSearchChange=null, searchValue=null
           return response.json();
         })
         .then((data) => {
-          // console.log(data);
           setCurrentUser(data)
         })
         .catch((error) => {
           console.error('There was a problem with the fetch operation:', error);
         });
+      
+      fetch("http://127.0.0.1:8000/api/profiles/me", {
+        headers: {
+          'Authorization': `JWT ${localStorage.getItem('access_token')}`
+        }
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          setCurrentUserProfile(data)
+        })
+        .catch((error) => console.error(error));
     }
   }, [])
 
@@ -235,9 +247,7 @@ const Navbar = ({ showSearchBar=false, handelSearchChange=null, searchValue=null
                     onClick={handleAccountMenuOpen}
                     sx={{ ml: 1 }}
                   >
-                    <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                      {currentUser.username[0]}
-                    </Avatar>
+                    {currentUserProfile && currentUserProfile.profile_picture ? <Avatar src={'http://127.0.0.1:8000'+currentUserProfile.profile_picture} sx={{ bgcolor: red[500] }} aria-label="recipe" /> : <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">{currentUser.username[0]}</Avatar> }
                   </IconButton>
 
                   <Menu
