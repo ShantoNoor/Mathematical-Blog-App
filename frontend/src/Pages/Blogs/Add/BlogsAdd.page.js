@@ -13,9 +13,6 @@ const BlogsAdd = () => {
 
   const addBlog = (event) => {
     event.preventDefault()
-    console.log(event.target.title.value)
-    console.log(event.target.content.value)
-    console.log(files)
 
     const myHeaders = new Headers();
     myHeaders.append("Authorization", `JWT ${localStorage.getItem('access_token')}`);
@@ -23,6 +20,7 @@ const BlogsAdd = () => {
     const formdata = new FormData();
     formdata.append("title", event.target.title.value);
     formdata.append("content", event.target.content.value);
+    formdata.append("blog_status", event.target.blog_status.value);
 
     if(files !== null) {
       Array.from(files).forEach(file => {
@@ -34,18 +32,18 @@ const BlogsAdd = () => {
       method: 'POST',
       headers: myHeaders,
       body: formdata,
-      redirect: 'follow'
     };
 
     fetch("http://127.0.0.1:8000/api/blogs/", requestOptions)
       .then(response => response.text())
-      .then(result => console.log(result))
+      .then(result => {
+        // console.log(result)
+        navigate('/blogs/me', { replace: true })
+      })
       .catch(error => {
         console.log('error', error)
         navigate('/*', { replace: true })
       });
-    
-      window.location.replace("/blogs")
   }
 
   return (
@@ -57,6 +55,10 @@ const BlogsAdd = () => {
           <input className='blog-form__title' type='text' name='title' placeholder='Blog Title' />
           <textarea className='blog-form__content' name='content' placeholder='Blog Content' />
           <input type='file' multiple name='uploaded_images' onChange={handelFiles} />
+          <select className="blog-form__control" name="blog_status">
+            <option value="Pending">Pending</option>
+            <option value="Published">Published</option>
+          </select>
           <input className='blog-form__btn' type='submit' value='Add' />
         </form>
       </section>

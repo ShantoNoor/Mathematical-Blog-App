@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from core.models import Blog, Rating, STATUS_CHOICES, UserProfile, Image
+from core.models import Blog, Rating, STATUS_CHOICES, UserProfile, Image, STATUS_PENDING
 from core.serializers import UserSerializer
 
 class ImageSerializer(serializers.ModelSerializer):
@@ -16,7 +16,7 @@ class ImageSerializer(serializers.ModelSerializer):
 
 
 class BlogSerializer(serializers.ModelSerializer):
-    blog_status = serializers.ChoiceField(choices=STATUS_CHOICES, read_only=True)
+    blog_status = serializers.ChoiceField(choices=STATUS_CHOICES, default=STATUS_PENDING)
     views = serializers.IntegerField(read_only=True)
     # reviews = ReviewSerializer(many=True, read_only=True)
     # ratings = RatingSerializer(many=True, read_only=True)

@@ -59,7 +59,7 @@ const Blogs = ({me=false}) => {
 			})
       .then(blogs => {
 				if(blogs !== []) {
-          console.log(blogs)
+          // console.log(blogs)
           setBlogs(blogs)
 				}
       })

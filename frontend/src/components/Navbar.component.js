@@ -53,7 +53,7 @@ const Navbar = ({ showSearchBar=false, handelSearchChange=null, searchValue=null
   const menuItemsLoggedIn = [
     { id:11, text: 'All Blogs', path: '/' },
     { id:12, text: 'My Blogs', path: '/blogs/me' },
-    { id:12, text: 'Add Blog', path: '/blogs/add' },
+    { id:13, text: 'Add Blog', path: '/blogs/add' },
   ];
 
   const menuItemsNotLoggedIn = [

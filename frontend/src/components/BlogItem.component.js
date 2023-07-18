@@ -1,4 +1,4 @@
-import { Card, CardActions, CardContent, CardHeader, Typography, IconButton, Tooltip, Box, Avatar, Menu, MenuItem } from '@mui/material'
+import { Badge, Card, CardActions, CardContent, CardHeader, Typography, IconButton, Tooltip, Box, Avatar, Menu, MenuItem } from '@mui/material'
 import StarIcon from '@mui/icons-material/Star';
 import ArticleIcon from '@mui/icons-material/Article';
 import WatchLaterIcon from '@mui/icons-material/WatchLater';
@@ -6,7 +6,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { red } from '@mui/material/colors';
+import { purple, red } from '@mui/material/colors';
 
 const BlogItem = ({blog}) => {
   const formattedDate = new Date(blog.created_at).toLocaleString('en-US', {
@@ -54,11 +54,14 @@ const BlogItem = ({blog}) => {
   }, [])
 
   return (
-    <Card sx={{}}>
-      <CardContent>
+    <Card>
+      <CardContent sx={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
         <Typography variant="h4" color="text.secondary">
           {blog.title}
         </Typography>
+        {(blog.blog_status!=='Published') ? <Typography variant='span' sx={{backgroundColor:purple[500], color:'#fff', padding:'5px', borderRadius:'50px'}}>
+          {blog.blog_status}
+        </Typography> : ''}
       </CardContent>
 
       <CardHeader 
