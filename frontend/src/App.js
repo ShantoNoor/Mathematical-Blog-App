@@ -1,6 +1,6 @@
 import './App.scss';
 import { Route, Routes, Navigate } from 'react-router-dom'
-import BlogsAdd from './pages/Blogs/Add/BlogsAdd.page';
+import BlogsAddOrUpdate from './pages/BlogsAddOrUpdate/BlogsAddOrUpdate.page';
 import Blogs from './pages/Blogs.page'
 import BlogsDetail from './pages/BlogsDetail.page';
 import NotFound from './pages/NotFound.page';
@@ -14,8 +14,8 @@ function App() {
       <Route path='/' exact element={<Navigate to="/blogs" />} />
       <Route path='/blogs' element={<Blogs />} />
       <Route path='/blogs/me' element={<Blogs me />} />
-      <Route path='/blogs/add' element={<BlogsAdd />} />
-      <Route path='/blogs/edit/:id' element={<BlogsAdd my_blog />} />
+      <Route path='/blogs/add' element={<BlogsAddOrUpdate />} />
+      <Route path='/blogs/edit/:id' element={<BlogsAddOrUpdate my_blog />} />
       <Route path='/blogs/my_blog/:id/' element={<BlogsDetail my_blog />} />
       <Route path='/blogs/:id' element={<BlogsDetail />} />
       <Route path='/login' element={<Login />} />

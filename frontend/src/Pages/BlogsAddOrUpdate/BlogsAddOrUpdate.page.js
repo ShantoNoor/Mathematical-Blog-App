@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import './BlogsAdd.style.scss'
+import './BlogsAddOrUpdate.style.scss'
 import { useNavigate } from 'react-router-dom';
-import Navbar from '../../../components/Navbar.component'
+import Navbar from '../../components/Navbar.component'
 import { Container, Divider, Typography, TextField, Box, Button, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import { useParams } from 'react-router-dom';
-import LinkList from '../../../components/LinkList.compnoent';
+import LinkList from '../../components/LinkList.compnoent';
 
-const BlogsAdd = ({my_blog=false}) => {
+const BlogsAddOrUpdate = ({my_blog=false}) => {
   const navigate = useNavigate();
 
   const [title, setTitle] = useState('');
@@ -156,4 +156,4 @@ const BlogsAdd = ({my_blog=false}) => {
   )
 }
 
-export default BlogsAdd
+export default BlogsAddOrUpdate
