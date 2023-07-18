@@ -11,7 +11,6 @@ import {
   Divider,
   Input,
 } from "@mui/material";
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import Navbar from "../components/Navbar.component";
 
 const Profile = () => {
@@ -21,31 +20,32 @@ const Profile = () => {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
+  const [phone, setPhone] = useState('');
+  const [isImgUploaded, setIsImgUploaded] = useState(false);
 
   useEffect(() => {
     // Fetch user data on mount
     fetch("http://127.0.0.1:8000/auth/users/me/", {
       headers: {
-        Authorization: `JWT ${localStorage.getItem('access_token')}`
+        'Authorization': `JWT ${localStorage.getItem('access_token')}`
       }
     })
       .then((res) => res.json())
       .then((data) => {
         setUser(data);
-        console.log(data)
       })
       .catch((error) => console.error(error));
     
     fetch("http://127.0.0.1:8000/api/profiles/me", {
       headers: {
-        Authorization: `JWT ${localStorage.getItem('access_token')}`
+        'Authorization': `JWT ${localStorage.getItem('access_token')}`
       }
     })
       .then((res) => res.json())
       .then((data) => {
         setProfile(data);
-        setPreviewImage(data.profile_picture)
-        console.log(data)
+        setPreviewImage('http://127.0.0.1:8000'+data.profile_picture)
+        setPhone(data.phone)
       })
       .catch((error) => console.error(error));
 
@@ -54,47 +54,63 @@ const Profile = () => {
 
   const handleUpdate = () => {
     setLoading(true);
-    // Make PUT/patch request to update user data
-    fetch("/api/user", {
+
+    fetch("http://127.0.0.1:8000/auth/users/me/", {
       method: "PUT",
       body: JSON.stringify(user),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
+        'Authorization': `JWT ${localStorage.getItem('access_token')}`
       },
+      mode: 'cors', 
+      credentials: 'include'
     })
       .then((res) => res.json())
       .then((data) => {
         setUser(data);
-        setLoading(false);
-        setOpenSnackbar(true);
       })
       .catch((error) => console.error(error));
+
+    const formData = new FormData();
+    formData.append('phone', phone)
+    formData.append('user_id', profile.user_id)
+    formData.append('id', profile.id)
+
+    if(isImgUploaded) 
+      formData.append('profile_picture', selectedFile);
+
+    fetch("http://127.0.0.1:8000/api/profiles/me/", {
+      method: "PUT",
+      body: formData,
+      headers: {
+        'Authorization': `JWT ${localStorage.getItem('access_token')}`
+      },
+      mode: 'cors', 
+      credentials: 'include'
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setProfile(data);
+        setPreviewImage('http://127.0.0.1:8000'+data.profile_picture)
+        setPhone(data.phone)
+      })
+      .catch((error) => console.error(error));
+
+    setLoading(false);
+    setOpenSnackbar(true);
+
+    alert('hi')
   };
 
   function handleFileInputChange(event) {
     setSelectedFile(event.target.files[0]);
     setPreviewImage(URL.createObjectURL(event.target.files[0]));
+    setIsImgUploaded(true)
   }
 
-  function handleUploadClick() {
-    const formData = new FormData();
-    formData.append('profilePicture', selectedFile);
-
-    fetch('/api/uploadProfilePicture', {
-      method: 'POST',
-      body: formData,
-    })
-      .then(response => {
-        if (response.ok) {
-          console.log('Profile picture uploaded successfully');
-        } else {
-          console.log('Failed to upload profile picture');
-        }
-      })
-      .catch(error => {
-        console.error('Error uploading profile picture:', error);
-      });
-  }
+  const handleChangePhone = (event) => {
+    setPhone(event.target.value)
+  };
 
   const handleCloseSnackbar = () => {
     setOpenSnackbar(false);
@@ -154,7 +170,7 @@ const Profile = () => {
             }
           }}>
             <Typography variant="h4" gutterBottom>
-              {user ? user.username : ''}
+              {'@'}{user ? user.username : ''}
             </Typography>
             <TextField
               label="First Name"
@@ -180,11 +196,10 @@ const Profile = () => {
             <TextField
               label="Phone"
               name="phone"
-              value={profile ? profile.phone : ''}
-              onChange={handleChange}
+              value={phone}
+              onChange={handleChangePhone}
               fullWidth
-            />]
-            
+            />
             <Button variant="contained" onClick={handleUpdate}>
               Update
             </Button>

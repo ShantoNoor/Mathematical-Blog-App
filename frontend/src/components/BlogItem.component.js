@@ -4,7 +4,7 @@ import ArticleIcon from '@mui/icons-material/Article';
 import WatchLaterIcon from '@mui/icons-material/WatchLater';
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { red } from '@mui/material/colors';
 
@@ -19,7 +19,6 @@ const BlogItem = ({blog}) => {
     hour12: true,
   });
   const navigate = useNavigate();
-
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -28,6 +27,31 @@ const BlogItem = ({blog}) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const [userId, setUserId] = useState(undefined)
+  useEffect(() => {
+    const accessToken = localStorage.getItem('access_token');
+    if(accessToken) {
+      fetch('http://127.0.0.1:8000/auth/users/me/', {
+        method: 'GET',
+        headers: {
+          Authorization: `JWT ${accessToken}`
+        }
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then((data) => {
+          setUserId(data.id)
+        })
+        .catch((error) => {
+          console.error('There was a problem with the fetch operation:', error);
+        });
+    }
+  }, [])
 
   return (
     <Card sx={{}}>
@@ -47,6 +71,8 @@ const BlogItem = ({blog}) => {
         }
         action={
           <>
+          {(userId === blog.author.id) && 
+            <>
             <IconButton aria-label="settings"
               id="demo-positioned-button"
               aria-controls={open ? 'demo-positioned-menu' : undefined}
@@ -54,9 +80,10 @@ const BlogItem = ({blog}) => {
               aria-expanded={open ? 'true' : undefined}
               onClick={handleClick}
             >
-            <MoreVertIcon />
-              </IconButton>
-              <Menu
+              <MoreVertIcon />
+            </IconButton>
+            
+            <Menu
               id="demo-positioned-menu"
               aria-labelledby="demo-positioned-button"
               anchorEl={anchorEl}
@@ -71,11 +98,28 @@ const BlogItem = ({blog}) => {
                 horizontal: 'left',
               }}
             >
-              <MenuItem onClick={() => navigate(`/blogs/${blog.id}`)}>Read Blog</MenuItem>
-              <MenuItem>Edit Blog</MenuItem>
-              <MenuItem>Delete Blog</MenuItem>
-              <MenuItem>View Profile</MenuItem>
+              <MenuItem onClick={() => {
+                console.log('helo')
+              }}>Edit Blog</MenuItem>
+
+              <MenuItem onClick={() => {
+                fetch("http://127.0.0.1:8000/api/blogs/"+blog.id+"/", {
+                    method: 'DELETE',
+                    headers: {
+                      'Authorization': `JWT ${localStorage.getItem('access_token')}`,
+                      mode: 'cors', 
+                      credentials: 'include',
+                    }
+                  })
+                    .then((res) => res.json())
+                    .then((data) => {
+                      console.log(data)
+                    })
+                    .catch((error) => console.error(error));
+                    window.location.reload();
+              }}>Delete Blog</MenuItem>
             </Menu>
+            </> }
           </>
         }
       />

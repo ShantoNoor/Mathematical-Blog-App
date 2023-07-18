@@ -65,7 +65,9 @@ class UserProfileSerializer(serializers.ModelSerializer):
     user_id = serializers.IntegerField(read_only=True)
     class Meta:
         model = UserProfile
-        fields = ['id', 'user_id', 'profile_picture', 'phone', 'birth_date']
+        fields = ['id', 'user_id', 'profile_picture', 'phone']
 
-
+    def create(self, validated_data):
+        user = self.context['request'].user
+        return UserProfile.objects.create(user=user, **validated_data)
 

@@ -167,6 +167,18 @@ const Navbar = ({ showSearchBar=false, handelSearchChange=null, searchValue=null
 
                 {loggedIn && <>
                   <ListItem
+                    key={'me'}
+                    component={NavLink}
+                    to='/me'
+                    activeclasscame="active"
+                  >
+                    <ListItemButton>
+                      <ListItemText primary={'My Profile'} />
+                    </ListItemButton>
+                  </ListItem>
+                  <Divider />
+
+                  <ListItem
                     key={'logout'}
                     onClick={logoutHandler}
                     component={NavLink}

@@ -22,7 +22,7 @@ class UserAdmin(BaseUserAdmin):
 
 @admin.register(UserProfile)
 class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ['user', 'phone', 'birth_date', 'profile_type']
+    list_display = ['user', 'phone', 'profile_type']
     list_editable = ['profile_type']
     list_per_page = 10
     ordering = ['user']

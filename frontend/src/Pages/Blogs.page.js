@@ -9,15 +9,6 @@ const Blogs = ({me=false}) => {
   const [blogs, setBlogs] = useState([])
   const [filteredBlogs, setFilteredBlogs] = useState([])
   const navigate = useNavigate();
-  const u = {
-    profile_picture: 'asjfsasdasfasfasf',
-    first_name: 'Hello',
-    last_name: 'World',
-    username: 'afcalk',
-    email: 'helloworld@gmail.com',
-    phone: '234242342432',
-    birth_date: '1212345'
-  }
 
   useEffect(() => {
     const myHeaders = new Headers();
