@@ -85,6 +85,7 @@ const Blogs = ({me=false}) => {
         <Divider sx={{ marginBottom: 3 }}/>
         <Grid container spacing={3} alignItems="stretch">
           {loggedin ? <AddBlogButton /> : ''}
+          {filteredBlogs.length === 0 ? <Typography sx={{display: 'flex',justifyContent: 'center', minWidth:'100%',}} variant='h3'>No Blogs Found</Typography> : ''}
           {filteredBlogs.map(blog => <Grid item xs={12} sm={6} md={4} key={blog.id}><BlogItem blog={blog} /></Grid> )}
         </Grid>
       </Container>
