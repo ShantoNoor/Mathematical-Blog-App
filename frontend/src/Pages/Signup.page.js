@@ -55,7 +55,7 @@ const Signup = () => {
     <>
         <Navbar />
         <Container>
-            <Typography variant='h2' component="h1" mt={3} mb={3}>{'Login'}</Typography>
+            <Typography variant='h2' component="h1" mt={3} mb={3}>{'SignUp'}</Typography>
             <Divider sx={{ marginBottom: 3 }}/>
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent:'center' }}>
             <form onSubmit={handleSubmit} onReset={handleReset} style={{ width: '90%', maxWidth: 400 }}>
