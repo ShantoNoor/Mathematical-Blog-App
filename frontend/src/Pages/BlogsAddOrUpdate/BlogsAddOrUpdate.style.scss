@@ -4,7 +4,7 @@
     grid-template-areas: 
         'title_ title_ content_ content_'
         'upload_ status_  content_ content_'
-        'submit_ submit_ content_ content_'
+        'upload_btn_ submit_ content_ content_'
     ;
 
     grid-auto-columns: 1fr;
@@ -16,6 +16,11 @@
 
     &__content {
         grid-area: content_;
+    }
+
+    &__upload_btn {
+        grid-area: upload_btn_;
+        align-self: center;
     }
 
     &__img-upload {
@@ -44,6 +49,7 @@
             'content_'
             'upload_'
             'status_'
+            'upload_btn_'
             'submit_'
         ;   
         gap: 1em;

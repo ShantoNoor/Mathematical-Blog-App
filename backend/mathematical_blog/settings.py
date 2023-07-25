@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'djoser',
     'debug_toolbar',
     'core',
-    'api'
+    'api',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [

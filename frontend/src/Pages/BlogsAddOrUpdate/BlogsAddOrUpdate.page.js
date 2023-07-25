@@ -55,9 +55,6 @@ const BlogsAddOrUpdate = ({my_blog=false}) => {
 
   const addBlog = (event) => {
     event.preventDefault();
-    // Add your logic to submit the form data
-
-    event.preventDefault()
 
     const myHeaders = new Headers();
     myHeaders.append("Authorization", `JWT ${localStorage.getItem('access_token')}`);
@@ -95,6 +92,50 @@ const BlogsAddOrUpdate = ({my_blog=false}) => {
       })
       .then((data) => {
         navigate('/blogs/me', { replace: true })
+      })
+      .catch((error) => {
+        console.error('There was a problem with the fetch operation:', error);
+        navigate('/*', { replace: true })
+      });
+  }
+
+  const upload_imges = () => {
+    const myHeaders = new Headers();
+    myHeaders.append("Authorization", `JWT ${localStorage.getItem('access_token')}`);
+
+    const formdata = new FormData();
+    formdata.append("title", title);
+    formdata.append("content", content);
+    formdata.append("blog_status", blogStatus);
+
+    if(fileUploaded) {
+      Array.from(files).forEach(file => {
+        formdata.append("uploaded_images", file);
+      });
+    }
+
+    const METHOD = my_blog ? 'PUT' : 'POST'
+    const requestOptions = {
+      method: METHOD,
+      headers: myHeaders,
+      body: formdata,
+      mode: 'cors', 
+      credentials: 'include'
+    };
+
+    let url = "http://127.0.0.1:8000/api/blogs/";
+    if(my_blog) url = url + id + '/my_blog/'
+
+    fetch(url, requestOptions)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        navigate('/blogs/edit/' + data.id, { replace: true })
+        window.location.reload()
       })
       .catch((error) => {
         console.error('There was a problem with the fetch operation:', error);
@@ -148,7 +189,8 @@ const BlogsAddOrUpdate = ({my_blog=false}) => {
               <MenuItem value='Published'>Published</MenuItem>
             </Select>
           </FormControl>
-          <Button className='blog-form__submit' type='submit' variant='contained' size='large'>{my_blog ? 'Update' : 'Add'}</Button>
+          <Button className='blog-form__upload_btn' onClick={upload_imges} type='button' variant='contained' size='large'>Upload Images</Button>
+          <Button className='blog-form__submit' type='submit' variant='contained' size='large'>{my_blog ? 'Update' : 'Add'} Blog</Button>
         </form>
         <Box className='img-preview'>
           <Typography sx={{margin: '10px auto'}} variant='h5'>{files && files.length!==0 ? 'Blog Images': ''}</Typography>
